@@ -23,6 +23,8 @@ public class PlayerEntity : MonoBehaviour
     //Objets
     [Header("Objets")]
     public string[] holdingObjects;
+    public bool canPickItem;
+    private GameObject targetItem;
     private bool isHoldingObject;
     private float numberOfCopies;
 
@@ -50,7 +52,7 @@ public class PlayerEntity : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rigidbody.gravityScale = 0;
         spritePlayer = GetComponent<SpriteRenderer>();
-        holdingObjects = new string[2];
+        holdingObjects = new string[2] { "", "" };
         turnFriction = baseTurnFriction;
         friction = baseFriction;
     }
@@ -80,6 +82,8 @@ public class PlayerEntity : MonoBehaviour
         GUILayout.Label("Speed = " + speed);
         GUILayout.Label("moveDir = " + moveDir);
         GUILayout.Label("orientDir = " + orientDir);
+        GUILayout.Label("holdingItem = " + isHoldingObject);
+        GUILayout.Label("pickItem = " + canPickItem);
         GUILayout.EndVertical();
     }
 
@@ -170,5 +174,39 @@ public class PlayerEntity : MonoBehaviour
         }
     }
 
+    #region Collider/Trigger
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "ArchivesDocument")
+        {
+            if(holdingObjects[1].Contains(""))
+            {
+                canPickItem = true;
+                targetItem = collision.gameObject;
+            }
+        }
+    }
+
+    #endregion
+
+    #region Items
+
+    public void PickItem()
+    {
+        if(holdingObjects[0].Contains(""))
+        {
+            holdingObjects[0] = targetItem.tag;
+            isHoldingObject = true;
+            _animator.SetBool("isHoldingItem", true);
+        }
+        else
+        {
+            holdingObjects[1] = targetItem.tag;
+            isHoldingObject = true;
+            _animator.SetBool("isHoldingItem", true);
+        }
+    }
+
+    #endregion
 }
