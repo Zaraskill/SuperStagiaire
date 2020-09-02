@@ -29,7 +29,10 @@ public class PlayerController : MonoBehaviour
 
         if (mainPlayer.GetButtonDown("Interact"))
         {
-
+            if (entity.canPickItem)
+            {
+                entity.PickItem();
+            }
         }
 
     }
