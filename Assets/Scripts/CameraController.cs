@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Vector3 officeTrans;
-    public Vector3 sideroomTrans;
+    public Vector3 archivesTrans;
     public Vector3 offset;
     public float cameraSpeed;
 
@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            destination = isInOffice ? sideroomTrans + offset : officeTrans + offset;
+            destination = isInOffice ? archivesTrans + offset : officeTrans + offset;
             isInOffice = !isInOffice;
             isMoving = true;
         }
