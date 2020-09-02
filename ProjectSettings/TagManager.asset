@@ -4,7 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Imprimante
+  - ArchivesDocument
+  - Worker
+  - Printer
+  - CoffeeMachine
+  - Coffee
+  - Photocopy
   layers:
   - Default
   - TransparentFX

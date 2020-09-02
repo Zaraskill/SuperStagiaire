@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         {
             if (entity.canPickItem)
             {
-                entity.PickItem();
+                entity.Interact();
             }
         }
 
