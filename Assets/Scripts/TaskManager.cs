@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TaskManager : MonoBehaviour
 {
+    public static TaskManager instance = null;
+
     public int tasksPerMinuteWhenStarting;
     public GameObject task;
     public GameObject player;
@@ -13,15 +15,22 @@ public class TaskManager : MonoBehaviour
     private float waitingTime;
     private bool isCounting;
     private List<GameObject> taskList;
-    
-    //initialisation of tasks list
+
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+    }
+
     void Start()
     {
         waitingTime = tasksPerMinuteWhenStarting / 60;
         isCounting = false;
 
         taskList = new List<GameObject>(); 
-        //créer liste des tasks
     }
 
     void Update()
@@ -61,6 +70,7 @@ public class TaskManager : MonoBehaviour
         isCounting = false;
     }
 
+    //function called by player
     public void TriggerCoworker(CoworkerScript coworker)
     {
         GameObject[] toDestroy = { null, null };
@@ -79,7 +89,7 @@ public class TaskManager : MonoBehaviour
         {
             coworker.GetComponent<CoworkerScript>().Happy();
             i--;
-            player.GetComponent<PlayerEntity>().EmptyHands(toDestroy[i].GetComponent<TaskTestScript>().type);////envoie le int du type de tâche pour savoir quoi jeter
+            //player.GetComponent<PlayerEntity>().EmptyHands(toDestroy[i].GetComponent<TaskTestScript>().type);////envoie le int du type de tâche pour savoir quoi jeter
             taskList.Remove(toDestroy[i]);
             toDestroy[i].GetComponent<TaskTestScript>().AutoDestroy();
             isHappy = true;

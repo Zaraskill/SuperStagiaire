@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController instance = null;
+
     public Vector3 officeTrans;
     public Vector3 archivesTrans;
     public Vector3 offset;
@@ -15,6 +17,13 @@ public class CameraController : MonoBehaviour
 
     private bool isMoving;
 
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+    }
 
     void Start()
     {
