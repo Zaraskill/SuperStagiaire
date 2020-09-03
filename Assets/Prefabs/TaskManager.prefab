@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &982473159810094922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 982473159810094924}
+  - component: {fileID: 982473159810094925}
+  m_Layer: 0
+  m_Name: TaskManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &982473159810094924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982473159810094922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 66, y: 51, z: -31.44485}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &982473159810094925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982473159810094922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce68c17dc27e5f047a1f4016be33c0ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tasksPerMinuteWhenStarting: 20
+  parentGUI: {fileID: 0}
+  task: {fileID: 7934480411355860708, guid: 0ae7731a375a458418f4786a439d3547, type: 3}
+  spawnPoints:
+  - position: {x: 144, y: 58, z: 0}
+    occupied: 0
+  - position: {x: 681, y: 48, z: 0}
+    occupied: 0
+  - position: {x: 322, y: 56, z: 0}
+    occupied: 0
+  - position: {x: 501, y: 52, z: 0}
+    occupied: 0
+  - position: {x: 753, y: 31, z: 0}
+    occupied: 0
+  - position: {x: 66, y: 51, z: 0}
+    occupied: 0
+  - position: {x: 355, y: 37, z: 0}
+    occupied: 0
+  - position: {x: 537, y: 67, z: 0}
+    occupied: 0
+  - position: {x: 208, y: 41, z: 0}
+    occupied: 0
+  - position: {x: 778, y: 64, z: 0}
+    occupied: 0
+  - position: {x: 249, y: 66, z: 0}
+    occupied: 0
+  - position: {x: 103, y: 61, z: 0}
+    occupied: 0
+  - position: {x: 32, y: 68, z: 0}
+    occupied: 0
+  - position: {x: 285, y: 50, z: 0}
+    occupied: 0
+  - position: {x: 639, y: 65, z: 0}
+    occupied: 0
+  - position: {x: 465, y: 69, z: 0}
+    occupied: 0
+  - position: {x: 571, y: 61, z: 0}
+    occupied: 0
+  - position: {x: 720, y: 69, z: 0}
+    occupied: 0
+  - position: {x: 182, y: 70, z: 0}
+    occupied: 0
+  - position: {x: 604, y: 40, z: 0}
+    occupied: 0
+  refScreenSize: {x: 800, y: 600}

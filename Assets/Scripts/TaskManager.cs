@@ -1,21 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class TaskManager : MonoBehaviour
 {
     public static TaskManager instance = null;
 
     public int tasksPerMinuteWhenStarting;
+    public Transform parentGUI;
     public GameObject task;
-    public GameObject player;
-
-    public Vector3[] tasksSlots; 
+   // public GameObject player;
 
     private float waitingTime;
     private bool isCounting;
     private List<GameObject> taskList;
 
+    public StrSpawner[] spawnPoints;
+    public Vector2 refScreenSize;
+
+    [Serializable]
+    public struct StrSpawner
+    {
+        public Vector3 position;
+        public bool occupied;
+    };
 
     private void Awake()
     {
@@ -27,11 +36,12 @@ public class TaskManager : MonoBehaviour
 
     void Start()
     {
-        waitingTime = tasksPerMinuteWhenStarting / 60;
+        waitingTime = 60 / tasksPerMinuteWhenStarting;
         isCounting = false;
 
         taskList = new List<GameObject>(); 
     }
+
 
     void Update()
     {
@@ -39,23 +49,34 @@ public class TaskManager : MonoBehaviour
             StartCoroutine("WaitAndSpawn");
     }
 
-    private Vector3 ChooseLocation()
-    {
-        //Partie de Noé. Reservée à Noé. Ne pas toucher sauf Noé.
 
-        return (new Vector3(0, 0, 0));
-        //placeholder de fonction
-        //tableau de structure qui retiennent chacune une pos & un bool "occupied"
+    public Vector3 ChooseLocation(TaskIdentity task)
+    {
+        int i = 0;
+
+        while(i < 20)
+        {
+            if (!spawnPoints[i].occupied)
+            {
+                spawnPoints[i].occupied = true;
+                task.slot = i;
+                Vector3 pos = new Vector3(spawnPoints[i].position.x * Screen.width / refScreenSize.x, Screen.height - (spawnPoints[i].position.y * Screen.height / refScreenSize.y), 0f);
+                return (pos);
+            }
+            i++;
+        }
+        taskList.Remove(task.gameObject);
+        task.AutoDestroy();
+        return (new Vector3 (0,0,0));
     }
 
-    private Quaternion ChooseRotation()
+
+    public Quaternion ChooseRotation()
     {
         float z = 0f;
-        float y = 0f;
 
-        z = Random.Range(-13, 13);
-        y = ((int)Random.Range(0, 1) == 1) ? 0 : 180;//optionnel, rotation miroir sur le postit
-        return (Quaternion.Euler(z, 0f, y));
+        z = UnityEngine.Random.Range(-15, 15);
+        return (Quaternion.Euler(0f, 0f, z));
     }
 
     IEnumerator WaitAndSpawn()
@@ -64,7 +85,7 @@ public class TaskManager : MonoBehaviour
 
         yield return new WaitForSeconds(waitingTime);
 
-        GameObject taskToAdd = Instantiate(task, ChooseLocation(), ChooseRotation());
+        GameObject taskToAdd = Instantiate(task, parentGUI, false);
         taskList.Add(taskToAdd);
 
         isCounting = false;
@@ -89,7 +110,6 @@ public class TaskManager : MonoBehaviour
         {
             coworker.GetComponent<CoworkerScript>().Happy();
             i--;
-            //player.GetComponent<PlayerEntity>().EmptyHands(toDestroy[i].GetComponent<TaskIdentity>().type);////envoie le int du type de tâche pour savoir quoi jeter
             taskList.Remove(toDestroy[i]);
             toDestroy[i].GetComponent<TaskIdentity>().AutoDestroy();
             isHappy = true;
