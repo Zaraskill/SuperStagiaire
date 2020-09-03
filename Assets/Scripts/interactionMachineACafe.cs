@@ -57,6 +57,7 @@ public class interactionMachineACafe : MonoBehaviour
     {
         Debug.Log("coffee start");
         attente = true;
+        player.PlaySoundCoffee();
         yield return new WaitForSeconds(tempsDePreparationCafe);
         _animator.SetBool("working", false);
         Debug.Log("coffee end");

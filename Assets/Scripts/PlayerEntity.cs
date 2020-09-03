@@ -42,6 +42,14 @@ public class PlayerEntity : MonoBehaviour
     [Header("Animator")]
     private Animator _animator;
 
+    //Sound
+    [Header("Sound")]
+    public AudioClip soundMove;
+    public AudioClip soundCoffee;
+    public AudioClip SoundPrint;
+    public AudioSource audioSourcePrint;
+    public AudioSource audioSourceCoffee;
+
     // Debug
     [Header("Debug")]
     public bool _debugMode = false;
@@ -218,15 +226,6 @@ public class PlayerEntity : MonoBehaviour
                     targetItem = collision.gameObject;
                 }
             }
-            else
-            {
-                if (collision.gameObject.GetComponent<interactionMachineACafe>().IsCoffeeReady())
-                {
-                    canInteract = true;
-                    interactWith = "coffeeMachine";
-                    targetItem = collision.gameObject;
-                }
-            }
         }
         else if (collision.gameObject.tag == "Trash")
         {
@@ -278,12 +277,15 @@ public class PlayerEntity : MonoBehaviour
 
     public bool IsInteractionWithPrinter()
     {
+        audioSourcePrint.clip = SoundPrint;
+        audioSourcePrint.Play();
         return interactWith == "printer";
     }
 
     public void StopPrinter()
     {
         targetItem.GetComponent<Printer>().StopPrinting();
+        audioSourcePrint.Stop();
     }
 
     public void ObtainPhotocopy(GameObject photocopy)
@@ -471,6 +473,12 @@ public class PlayerEntity : MonoBehaviour
     }
 
     #endregion
+
+    public void PlaySoundCoffee()
+    {
+        audioSourceCoffee.clip = soundCoffee;
+        audioSourceCoffee.Play();
+    }
 
 }
 
