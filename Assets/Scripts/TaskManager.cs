@@ -79,8 +79,8 @@ public class TaskManager : MonoBehaviour
 
         foreach (GameObject lookedAt in taskList)
         {
-            if (i < 2 && lookedAt.GetComponent<TaskTestScript>().worker == coworker.number)
-                toDestroy[i] = lookedAt.GetComponent<TaskTestScript>().IsFulfilled();
+            if (i < 2 && lookedAt.GetComponent<TaskIdentity>().coworker == coworker.number)
+                toDestroy[i] = lookedAt.GetComponent<TaskIdentity>().IsFulfilled();
             if (i < 2 && toDestroy[i] != null)
                 i++;
         }
@@ -89,9 +89,9 @@ public class TaskManager : MonoBehaviour
         {
             coworker.GetComponent<CoworkerScript>().Happy();
             i--;
-            //player.GetComponent<PlayerEntity>().EmptyHands(toDestroy[i].GetComponent<TaskTestScript>().type);////envoie le int du type de tâche pour savoir quoi jeter
+            //player.GetComponent<PlayerEntity>().EmptyHands(toDestroy[i].GetComponent<TaskIdentity>().type);////envoie le int du type de tâche pour savoir quoi jeter
             taskList.Remove(toDestroy[i]);
-            toDestroy[i].GetComponent<TaskTestScript>().AutoDestroy();
+            toDestroy[i].GetComponent<TaskIdentity>().AutoDestroy();
             isHappy = true;
         }
         if (!isHappy)

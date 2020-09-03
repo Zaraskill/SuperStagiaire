@@ -9,7 +9,7 @@ public class TaskIdentity : MonoBehaviour
     public Color[] colorOfArchive = new Color[5];
     public string[] task = new string[3];
     public Sprite[] taskSprite = new Sprite[3];
-    int type, coworker;
+    public int type, coworker;
     public Image img;
     int randomTask , randomArchiveColor;
     public Image taskIcon;
