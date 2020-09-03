@@ -38,7 +38,6 @@ public class interactionMachineACafe : MonoBehaviour
         {
             player.GetCoffeeFull(coffeeFull);
             _animator.SetTrigger("pickedUp");
-            _animator.ResetTrigger("pickedUp");
             cafePret = false;
         }
         else if (!attente && player.IsHoldingEmptyCoffee())
@@ -47,6 +46,11 @@ public class interactionMachineACafe : MonoBehaviour
             _animator.SetBool("working", true);
             StartCoroutine(PreparationCafe());
         }
+    }
+
+    public bool IsCoffeeReady()
+    {
+        return cafePret;
     }
 
     IEnumerator PreparationCafe()

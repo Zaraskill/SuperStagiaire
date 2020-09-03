@@ -218,6 +218,15 @@ public class PlayerEntity : MonoBehaviour
                     targetItem = collision.gameObject;
                 }
             }
+            else
+            {
+                if (collision.gameObject.GetComponent<interactionMachineACafe>().IsCoffeeReady())
+                {
+                    canInteract = true;
+                    interactWith = "coffeeMachine";
+                    targetItem = collision.gameObject;
+                }
+            }
         }
         else if (collision.gameObject.tag == "Trash")
         {
