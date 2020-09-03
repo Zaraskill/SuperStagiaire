@@ -34,6 +34,13 @@ public class PlayerController : MonoBehaviour
                 entity.Interact();
             }
         }
+        else if (mainPlayer.GetButtonUp("Interact"))
+        {
+            if (entity.IsInteractionWithPrinter())
+            {
+                entity.StopPrinter();
+            }
+        }
 
     }
 }

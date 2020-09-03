@@ -22,6 +22,7 @@ public class PlayerEntity : MonoBehaviour
 
     //Interation
     private bool interactWithWorker;
+    private bool interactWithPrinter;
 
     //Objets
     [Header("Objets")]
@@ -33,6 +34,7 @@ public class PlayerEntity : MonoBehaviour
     private List<GameObject> holdingItems;
     private bool isHoldingObject;
     private float numberOfCopies;
+    private float placeCopies;
 
     //Rigidbody
     [Header("Rigidbody")]
@@ -83,11 +85,7 @@ public class PlayerEntity : MonoBehaviour
         }
 
         GUILayout.BeginVertical();
-        GUILayout.Label("Speed = " + speed);
-        GUILayout.Label("moveDir = " + moveDir);
-        GUILayout.Label("orientDir = " + orientDir);
-        GUILayout.Label("holdingItem = " + isHoldingObject);
-        GUILayout.Label("pickItem = " + canPickItem);
+        GUILayout.Label("printer = " + interactWithPrinter);
         GUILayout.Label("item 1 = " + holdingObjects[0]);
         GUILayout.Label("item 2 = " + holdingObjects[1]);
         GUILayout.EndVertical();
@@ -200,7 +198,26 @@ public class PlayerEntity : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Printer")
         {
-            
+            placeCopies = IsHoldingPhotocopy();
+            if (placeCopies == 2)
+            {
+                interactWithPrinter = false;
+                canPickItem = false;
+            }
+            else
+            {
+                interactWithPrinter = true;
+                canPickItem = true;
+                targetItem = collision.gameObject;
+            }
+        }
+        else if (collision.gameObject.tag == "Coffee")
+        {
+            if (!IsHoldingItems())
+            {
+                canPickItem = true;
+                targetItem = collision.gameObject;
+            }
         }
         else if (collision.gameObject.tag == "CoffeeMachine")
         {
@@ -211,6 +228,8 @@ public class PlayerEntity : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         canPickItem = false;
+        interactWithPrinter = false;
+        interactWithWorker = false;
     }
 
     #endregion
@@ -223,10 +242,50 @@ public class PlayerEntity : MonoBehaviour
         {
             GiveToWorker();
         }
+        else if (interactWithPrinter)
+        {
+            targetItem.GetComponent<Printer>().StartPrinting(this);
+        }
         else
         {
             PickItem();
         }
+    }
+
+    public bool IsInteractionWithPrinter()
+    {
+        return interactWithPrinter;
+    }
+
+    public void StopPrinter()
+    {
+        targetItem.GetComponent<Printer>().StopPrinting();
+    }
+
+    public void ObtainPhotocopy(int numberCopies)
+    {
+        
+        numberOfCopies += numberCopies;
+        if (IsHoldingPhotocopy() != 2)
+        {
+            return;
+        }
+        GameObject obj = Instantiate(photocopy);
+        targetItem = obj;
+        targetItem.transform.SetParent(this.transform);
+        if (holdingObjects[0] == "")
+        {
+            targetItem.transform.localPosition = itemHoldOne.transform.localPosition;
+            holdingObjects[0] = targetItem.tag;
+        }
+        else
+        {
+            targetItem.transform.localPosition = itemHoldTwo.transform.localPosition;
+            holdingObjects[1] = targetItem.tag;
+        }        
+        holdingItems.Add(targetItem);        
+        isHoldingObject = true;
+        _animator.SetBool("isHoldingItem", true);
     }
 
     private void PickItem()
@@ -235,35 +294,43 @@ public class PlayerEntity : MonoBehaviour
         {
             return;
         }
-        if (holdingObjects[0].Contains(""))
+        if(targetItem.tag == "Coffee")
         {
-            if (targetItem.tag == "ArchivesDocument")
+            if (holdingObjects[0] == "")
             {
-                targetItem.transform.SetParent(this.transform);
-                targetItem.transform.localPosition = itemHoldOne.transform.localPosition;
-                holdingItems.Add(targetItem);
+                holdingObjects[0] = holdingObjects[1];
+                holdingItems[0].transform.localPosition = itemHoldOne.transform.localPosition;
             }
+        }
+        if (holdingObjects[0] == "")
+        {
+            targetItem.transform.SetParent(this.transform);
+            targetItem.transform.localPosition = itemHoldOne.transform.localPosition;
+            holdingItems.Add(targetItem);
             holdingObjects[0] = targetItem.tag;
             targetItem.GetComponent<CircleCollider2D>().enabled = false;
             targetItem.GetComponent<BoxCollider2D>().enabled = false;
             isHoldingObject = true;
             _animator.SetBool("isHoldingItem", true);
+            targetItem = null;
         }
         else
         {
             holdingObjects[1] = targetItem.tag;
-            if (targetItem.tag == "ArchivesDocument")
-            {
-                targetItem.transform.SetParent(this.transform);
-                targetItem.transform.localPosition = itemHoldTwo.transform.localPosition;
-                holdingItems.Add(targetItem);
-            }
+            targetItem.transform.SetParent(this.transform);
+            targetItem.transform.localPosition = itemHoldTwo.transform.localPosition;
+            holdingItems.Add(targetItem);
+            targetItem.GetComponent<CircleCollider2D>().enabled = false;
+            targetItem.GetComponent<BoxCollider2D>().enabled = false;          
             isHoldingObject = true;
             canPickItem = false;
             _animator.SetBool("isHoldingItem", true);
+            targetItem = null;
         }
     }
 
+
+    //A changer avec les quetes
     private void GiveToWorker()
     {
         holdingObjects[0] = "";
@@ -282,27 +349,31 @@ public class PlayerEntity : MonoBehaviour
 
     private bool IsHoldingItems()
     {
-        if(holdingObjects[0].Contains("") && holdingObjects[1].Contains(""))
+        if(holdingObjects[0] != "" && holdingObjects[1] != "")
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private float IsHoldingPhotocopy()
     {
         if (IsHoldingItems())
         {
-            if (holdingObjects[0].Contains("Photocopy"))
+            if (holdingObjects[0] == "Photocopy")
             {
                 return 0;
             }
-            if (holdingObjects[1].Contains("Photocopy"))
+            else if (holdingObjects[1] == "Photocopy")
             {
                 return 1;
             }
+            else
+            {
+                return 2;
+            }
         }
-        return 2;
+        return 3;
     }
 
     #endregion
