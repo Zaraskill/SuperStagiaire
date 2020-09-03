@@ -17,6 +17,8 @@ public class PlayerEntity : MonoBehaviour
     [Header("Friction")]
     public float baseFriction;
     public float baseTurnFriction;
+    public float lostFriction;
+    public float lostTurnFriction;
     private float friction;
     private float turnFriction;
 
@@ -196,18 +198,26 @@ public class PlayerEntity : MonoBehaviour
                 targetItem = collision.gameObject;                
             }
         }
-        else if (collision.gameObject.tag == "Coffee")
+        else if (collision.gameObject.tag == "CoffeeEmpty")
         {
             if (IsHoldingItems() < 2)
             {
                 canInteract = true;
-                interactWith = "coffee";
+                interactWith = "coffeeEmpty";
                 targetItem = collision.gameObject;
             }
         }
         else if (collision.gameObject.tag == "CoffeeMachine")
         {
-
+            if (IsHoldingItems() > 0)
+            {
+                if (holdingObjects.itemOne == "CoffeeEmpty" || holdingObjects.itemTwo == "CoffeeEmpty" || holdingObjects.itemOne == "" || holdingObjects.itemTwo == "")
+                {
+                    canInteract = true;
+                    interactWith = "coffeeMachine";
+                    targetItem = collision.gameObject;
+                }
+            }
         }
         else if (collision.gameObject.tag == "Trash")
         {
@@ -246,6 +256,10 @@ public class PlayerEntity : MonoBehaviour
         else if (interactWith == "trash")
         {
             DropItems();
+        }
+        else if (interactWith == "coffeeMachine")
+        {
+            targetItem.GetComponent<interactionMachineACafe>().Interact(this);
         }
         else
         {
@@ -295,7 +309,7 @@ public class PlayerEntity : MonoBehaviour
         {
             return;
         }
-        if(targetItem.tag == "Coffee")
+        if(targetItem.tag == "CoffeeEmpty")
         {
             if (holdingObjects.itemOne == "" && holdingObjects.itemTwo != "")
             {
@@ -339,6 +353,8 @@ public class PlayerEntity : MonoBehaviour
             _animator.SetBool("isHoldingItem", true);
             targetItem = null;
         }
+        friction -= lostFriction;
+        turnFriction -= lostTurnFriction;
     }
 
 
@@ -355,10 +371,22 @@ public class PlayerEntity : MonoBehaviour
 
     public void DropItems()
     {
-        holdingObjects.itemOne = "";
-        holdingObjects.itemTwo = "";
-        Destroy(holdingObjects.firstItem);
-        Destroy(holdingObjects.secondItem);
+        if (holdingObjects.itemOne != "")
+        {
+            holdingObjects.itemOne = "";
+            Destroy(holdingObjects.firstItem);
+            holdingObjects.firstItem = null;
+            friction += lostFriction;
+            turnFriction += lostTurnFriction;
+        }
+        if (holdingObjects.itemTwo != "")
+        {
+            holdingObjects.itemTwo = "";
+            Destroy(holdingObjects.secondItem);
+            holdingObjects.secondItem = null;
+            friction += lostFriction;
+            turnFriction += lostTurnFriction;
+        }
         _animator.SetBool("isHoldingItem", false);
     }
 
@@ -368,7 +396,7 @@ public class PlayerEntity : MonoBehaviour
 
     #region Items
 
-    private float IsHoldingItems()
+    public float IsHoldingItems()
     {
         if(holdingObjects.itemOne != "" || holdingObjects.itemTwo != "")
         {
@@ -379,6 +407,58 @@ public class PlayerEntity : MonoBehaviour
             return 1;
         }
         return 0;
+    }
+
+    public void GetCoffeeFull(GameObject coffee)
+    {
+        GameObject obj = Instantiate(coffee);
+        targetItem = obj;
+        targetItem.transform.SetParent(this.transform);
+        if (holdingObjects.itemTwo != "")
+        {
+            holdingObjects.itemOne = holdingObjects.itemTwo;
+            holdingObjects.firstItem = holdingObjects.secondItem;
+            holdingObjects.firstItem.transform.localPosition = itemHoldOne.transform.localPosition;
+            holdingObjects.secondItem = null;
+        }
+
+        targetItem.transform.localPosition = itemHoldTwo.transform.localPosition;
+        holdingObjects.itemTwo = targetItem.tag;
+        holdingObjects.secondItem = obj;
+
+        _animator.SetBool("isHoldingItem", true);
+        if (!IsHoldingEmptyCoffee() && IsHoldingItems() == 2)
+        {
+            canInteract = false;
+            interactWith = "";
+        }
+        if (IsHoldingItems() == 1)
+        {
+            _animator.SetBool("isHoldingItem", true);
+        }
+    }
+
+    public bool IsHoldingEmptyCoffee()
+    {
+        return (holdingObjects.itemTwo == "CoffeeEmpty" || holdingObjects.itemOne == "CoffeeEmpty");
+    }
+
+    public void DestroyCoffeeEmpty()
+    {
+        if (holdingObjects.itemTwo == "CoffeeEmpty")
+        {
+            holdingObjects.itemTwo = "";
+            Destroy(holdingObjects.secondItem);
+        }
+        else if (holdingObjects.itemOne == "CoffeeEmpty")
+        {
+            holdingObjects.itemOne = "";
+            Destroy(holdingObjects.firstItem);
+        }
+        if (IsHoldingItems() == 0)
+        {
+            _animator.SetBool("isHoldingItem", false);
+        }
     }
 
     #endregion

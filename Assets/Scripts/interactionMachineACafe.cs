@@ -6,13 +6,19 @@ using UnityEngine.UI;
 public class interactionMachineACafe : MonoBehaviour
 {
     public float tempsDePreparationCafe;
-    public inventairePlayer inventaire;
     
-    private bool isInRange;
     private bool attente;
     private bool cafePret = false;
-  
-        
+    public GameObject coffeeFull;
+    private PlayerEntity player;
+    private Animator _animator;
+
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,35 +28,31 @@ public class interactionMachineACafe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isInRange && !attente && !cafePret && Input.GetKeyDown("a"))
-            StartCoroutine(PreparationCafe());
-        else if (isInRange && !attente && cafePret && Input.GetKeyDown("a"))
+
+    }
+
+    public void Interact(PlayerEntity playerEntity)
+    {
+        player = playerEntity;
+        if (cafePret && player.IsHoldingItems() < 2)
         {
-            if (inventaire.GetObjet("cafe"))
-                cafePret = false;
+            player.GetCoffeeFull(coffeeFull);
+            cafePret = false;
         }
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-            isInRange = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-            isInRange = false;
+        else if (!attente && player.IsHoldingEmptyCoffee())
+        {
+            player.DestroyCoffeeEmpty();
+            StartCoroutine(PreparationCafe());
+        }
     }
 
     IEnumerator PreparationCafe()
     {
-        print("le cafe coule");
+        Debug.Log("coffee start");
         attente = true;
         yield return new WaitForSeconds(tempsDePreparationCafe);
+        Debug.Log("coffee end");
         attente = false;
-        print("le cafe ne coule plus");
         cafePret = true;
     }
 

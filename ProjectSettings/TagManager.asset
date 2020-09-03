@@ -12,6 +12,8 @@ TagManager:
   - Photocopy
   - Table
   - Trash
+  - CoffeeEmpty
+  - CoffeeFull
   layers:
   - Default
   - TransparentFX
