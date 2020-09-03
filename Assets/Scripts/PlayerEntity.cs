@@ -21,19 +21,16 @@ public class PlayerEntity : MonoBehaviour
     private float turnFriction;
 
     //Interation
-    private bool interactWithWorker;
-    private bool interactWithPrinter;
+    private string interactWith;
 
     //Objets
     [Header("Objets")]
-    public string[] holdingObjects;
-    public bool canPickItem;
+    public Inventory holdingObjects;
+    public bool canInteract;
     public GameObject itemHoldOne;
     public GameObject itemHoldTwo;
     private GameObject targetItem;
     private List<GameObject> holdingItems;
-    private bool isHoldingObject;
-    private float numberOfCopies;
     private float placeCopies;
 
     //Rigidbody
@@ -57,16 +54,17 @@ public class PlayerEntity : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _rigidbody.gravityScale = 0;
-        holdingObjects = new string[2] { "", "" };
         turnFriction = baseTurnFriction;
         friction = baseFriction;
         holdingItems = new List<GameObject>();
+        holdingObjects.itemOne = "";
+        holdingObjects.itemTwo = "";
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(holdingObjects.Length);
+
     }
 
     // Update is called once per frame
@@ -85,9 +83,7 @@ public class PlayerEntity : MonoBehaviour
         }
 
         GUILayout.BeginVertical();
-        GUILayout.Label("printer = " + interactWithPrinter);
-        GUILayout.Label("item 1 = " + holdingObjects[0]);
-        GUILayout.Label("item 2 = " + holdingObjects[1]);
+        GUILayout.Label("interact = " + interactWith);
         GUILayout.EndVertical();
     }
 
@@ -184,38 +180,33 @@ public class PlayerEntity : MonoBehaviour
     {
         if(collision.gameObject.tag == "Worker")
         {
-            interactWithWorker = true;
-            canPickItem = true;
+            interactWith = "worker";
+            canInteract = true;
         }
         else if(collision.gameObject.tag == "ArchivesDocument")
         {
-            interactWithWorker = false;
-            if(!IsHoldingItems())
+            if(IsHoldingItems() < 2)
             {
-                canPickItem = true;
+                canInteract = true;
+                interactWith = "archivesDocument";
                 targetItem = collision.gameObject;
             }
         }
         else if (collision.gameObject.tag == "Printer")
         {
-            placeCopies = IsHoldingPhotocopy();
-            if (placeCopies == 2)
+            if (IsHoldingItems() < 2)
             {
-                interactWithPrinter = false;
-                canPickItem = false;
-            }
-            else
-            {
-                interactWithPrinter = true;
-                canPickItem = true;
-                targetItem = collision.gameObject;
+                interactWith = "printer";
+                canInteract = true;
+                targetItem = collision.gameObject;                
             }
         }
         else if (collision.gameObject.tag == "Coffee")
         {
-            if (!IsHoldingItems())
+            if (IsHoldingItems() < 2)
             {
-                canPickItem = true;
+                canInteract = true;
+                interactWith = "coffee";
                 targetItem = collision.gameObject;
             }
         }
@@ -223,13 +214,20 @@ public class PlayerEntity : MonoBehaviour
         {
 
         }
+        else if (collision.gameObject.tag == "Trash")
+        {
+            if (IsHoldingItems() > 0)
+            {
+                canInteract = true;
+                interactWith = "trash";
+            }            
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        canPickItem = false;
-        interactWithPrinter = false;
-        interactWithWorker = false;
+        canInteract = false;
+        interactWith = "";
     }
 
     #endregion
@@ -238,13 +236,21 @@ public class PlayerEntity : MonoBehaviour
 
     public void Interact()
     {
-        if (interactWithWorker)
+        if (!canInteract)
+        {
+            return;
+        }
+        if (interactWith == "worker")
         {
             GiveToWorker();
         }
-        else if (interactWithPrinter)
+        else if (interactWith == "printer")
         {
             targetItem.GetComponent<Printer>().StartPrinting(this);
+        }
+        else if (interactWith == "trash")
+        {
+            DropItems();
         }
         else
         {
@@ -254,7 +260,7 @@ public class PlayerEntity : MonoBehaviour
 
     public bool IsInteractionWithPrinter()
     {
-        return interactWithPrinter;
+        return interactWith == "printer";
     }
 
     public void StopPrinter()
@@ -265,65 +271,70 @@ public class PlayerEntity : MonoBehaviour
     public void ObtainPhotocopy(int numberCopies)
     {
         
-        numberOfCopies += numberCopies;
-        if (IsHoldingPhotocopy() != 2)
-        {
-            return;
-        }
         GameObject obj = Instantiate(photocopy);
         targetItem = obj;
         targetItem.transform.SetParent(this.transform);
-        if (holdingObjects[0] == "")
+        if (holdingObjects.itemOne == "")
         {
             targetItem.transform.localPosition = itemHoldOne.transform.localPosition;
-            holdingObjects[0] = targetItem.tag;
+            holdingObjects.itemOne = targetItem.tag;
         }
         else
         {
             targetItem.transform.localPosition = itemHoldTwo.transform.localPosition;
-            holdingObjects[1] = targetItem.tag;
+            holdingObjects.itemTwo = targetItem.tag;
         }        
         holdingItems.Add(targetItem);        
-        isHoldingObject = true;
         _animator.SetBool("isHoldingItem", true);
     }
 
     private void PickItem()
     {
-        if (!canPickItem)
+        if (IsHoldingItems() == 2)
         {
             return;
         }
         if(targetItem.tag == "Coffee")
         {
-            if (holdingObjects[0] == "")
+            if (holdingObjects.itemOne == "" && holdingObjects.itemTwo != "")
             {
-                holdingObjects[0] = holdingObjects[1];
-                holdingItems[0].transform.localPosition = itemHoldOne.transform.localPosition;
+                holdingObjects.itemOne = holdingObjects.itemTwo;
+                holdingObjects.firstItem = holdingObjects.secondItem;
+                holdingObjects.firstItem.transform.localPosition = itemHoldOne.transform.localPosition;
+                holdingObjects.secondItem = null;
+            }
+            else
+            {
+                targetItem.transform.SetParent(this.transform);
+                targetItem.GetComponent<CircleCollider2D>().enabled = false;
+                targetItem.GetComponent<BoxCollider2D>().enabled = false;
+                holdingObjects.itemTwo = targetItem.tag;
+                holdingObjects.secondItem = targetItem;
+                holdingObjects.secondItem.transform.localPosition = itemHoldTwo.transform.localPosition;
+                _animator.SetBool("isHoldingItem", true);
+                targetItem = null;
             }
         }
-        if (holdingObjects[0] == "")
+        else if (holdingObjects.itemOne == "")
         {
             targetItem.transform.SetParent(this.transform);
             targetItem.transform.localPosition = itemHoldOne.transform.localPosition;
-            holdingItems.Add(targetItem);
-            holdingObjects[0] = targetItem.tag;
+            holdingObjects.firstItem = targetItem;
+            holdingObjects.itemOne = targetItem.tag;
             targetItem.GetComponent<CircleCollider2D>().enabled = false;
             targetItem.GetComponent<BoxCollider2D>().enabled = false;
-            isHoldingObject = true;
             _animator.SetBool("isHoldingItem", true);
             targetItem = null;
         }
         else
         {
-            holdingObjects[1] = targetItem.tag;
+            holdingObjects.itemTwo = targetItem.tag;
             targetItem.transform.SetParent(this.transform);
             targetItem.transform.localPosition = itemHoldTwo.transform.localPosition;
-            holdingItems.Add(targetItem);
+            holdingObjects.secondItem = targetItem;
             targetItem.GetComponent<CircleCollider2D>().enabled = false;
             targetItem.GetComponent<BoxCollider2D>().enabled = false;          
-            isHoldingObject = true;
-            canPickItem = false;
+            canInteract = false;
             _animator.SetBool("isHoldingItem", true);
             targetItem = null;
         }
@@ -333,49 +344,51 @@ public class PlayerEntity : MonoBehaviour
     //A changer avec les quetes
     private void GiveToWorker()
     {
-        holdingObjects[0] = "";
-        holdingObjects[1] = "";
+        holdingObjects.itemOne = "";
+        holdingObjects.itemTwo = "";
         foreach(GameObject obj in holdingItems)
         {
             Destroy(obj);
         }
-        isHoldingObject = false;
         _animator.SetBool("isHoldingItem", false);
     }
+
+    public void DropItems()
+    {
+        holdingObjects.itemOne = "";
+        holdingObjects.itemTwo = "";
+        Destroy(holdingObjects.firstItem);
+        Destroy(holdingObjects.secondItem);
+        _animator.SetBool("isHoldingItem", false);
+    }
+
+
 
     #endregion
 
     #region Items
 
-    private bool IsHoldingItems()
+    private float IsHoldingItems()
     {
-        if(holdingObjects[0] != "" && holdingObjects[1] != "")
+        if(holdingObjects.itemOne != "" || holdingObjects.itemTwo != "")
         {
-            return true;
-        }
-        return false;
-    }
-
-    private float IsHoldingPhotocopy()
-    {
-        if (IsHoldingItems())
-        {
-            if (holdingObjects[0] == "Photocopy")
-            {
-                return 0;
-            }
-            else if (holdingObjects[1] == "Photocopy")
-            {
-                return 1;
-            }
-            else
+            if (holdingObjects.itemTwo != "" && holdingObjects.itemOne != "")
             {
                 return 2;
             }
+            return 1;
         }
-        return 3;
+        return 0;
     }
 
     #endregion
 
+}
+
+public struct Inventory
+{
+    public string itemOne;
+    public string itemTwo;
+    public GameObject firstItem;
+    public GameObject secondItem;
 }
