@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9013699628886499240}
   - component: {fileID: 9013699628886499241}
   - component: {fileID: 9013699628886499245}
+  - component: {fileID: 8114591361667203320}
   m_Layer: 0
   m_Name: Printer
   m_TagString: Printer
@@ -163,3 +164,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timePrint: 2
   photocopy: {fileID: 7511829065386992546, guid: 16d8f34661111ea4ca7648f1bd54a2bb, type: 3}
+--- !u!95 &8114591361667203320
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9013699628886499243}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 19c0865b195f57a4ea48eb812fcce4eb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

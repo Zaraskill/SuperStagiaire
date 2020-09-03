@@ -37,11 +37,14 @@ public class interactionMachineACafe : MonoBehaviour
         if (cafePret && player.IsHoldingItems() < 2)
         {
             player.GetCoffeeFull(coffeeFull);
+            _animator.SetTrigger("pickedUp");
+            _animator.ResetTrigger("pickedUp");
             cafePret = false;
         }
         else if (!attente && player.IsHoldingEmptyCoffee())
         {
             player.DestroyCoffeeEmpty();
+            _animator.SetBool("working", true);
             StartCoroutine(PreparationCafe());
         }
     }
@@ -51,6 +54,7 @@ public class interactionMachineACafe : MonoBehaviour
         Debug.Log("coffee start");
         attente = true;
         yield return new WaitForSeconds(tempsDePreparationCafe);
+        _animator.SetBool("working", false);
         Debug.Log("coffee end");
         attente = false;
         cafePret = true;

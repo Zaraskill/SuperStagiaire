@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6678542610917897062}
   - component: {fileID: 6678542610917897063}
   - component: {fileID: 6678542610917897056}
+  - component: {fileID: 9034794378703285159}
   m_Layer: 0
   m_Name: Coffee
   m_TagString: CoffeeEmpty
@@ -148,3 +149,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.3
+--- !u!95 &9034794378703285159
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6678542610917897057}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fdd66e1f3298448418213319ad962e78, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
