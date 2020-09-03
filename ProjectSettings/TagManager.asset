@@ -10,6 +10,7 @@ TagManager:
   - CoffeeMachine
   - Coffee
   - Photocopy
+  - Table
   layers:
   - Default
   - TransparentFX
