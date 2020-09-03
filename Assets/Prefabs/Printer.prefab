@@ -162,4 +162,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timePrint: 2
-  numberCopiesEnd: 10
+  photocopy: {fileID: 7511829065386992546, guid: 16d8f34661111ea4ca7648f1bd54a2bb, type: 3}

@@ -30,7 +30,6 @@ public class PlayerEntity : MonoBehaviour
     public GameObject itemHoldOne;
     public GameObject itemHoldTwo;
     private GameObject targetItem;
-    private List<GameObject> holdingItems;
     private float placeCopies;
 
     //Rigidbody
@@ -40,9 +39,6 @@ public class PlayerEntity : MonoBehaviour
     //Animator
     [Header("Animator")]
     private Animator _animator;
-
-    [Header("A delete avec integration meca printer")]
-    public GameObject photocopy;
 
     // Debug
     [Header("Debug")]
@@ -56,7 +52,6 @@ public class PlayerEntity : MonoBehaviour
         _rigidbody.gravityScale = 0;
         turnFriction = baseTurnFriction;
         friction = baseFriction;
-        holdingItems = new List<GameObject>();
         holdingObjects.itemOne = "";
         holdingObjects.itemTwo = "";
     }
@@ -268,7 +263,7 @@ public class PlayerEntity : MonoBehaviour
         targetItem.GetComponent<Printer>().StopPrinting();
     }
 
-    public void ObtainPhotocopy(int numberCopies)
+    public void ObtainPhotocopy(GameObject photocopy)
     {
         
         GameObject obj = Instantiate(photocopy);
@@ -278,14 +273,20 @@ public class PlayerEntity : MonoBehaviour
         {
             targetItem.transform.localPosition = itemHoldOne.transform.localPosition;
             holdingObjects.itemOne = targetItem.tag;
+            holdingObjects.firstItem = obj;
         }
         else
         {
             targetItem.transform.localPosition = itemHoldTwo.transform.localPosition;
             holdingObjects.itemTwo = targetItem.tag;
+            holdingObjects.secondItem = obj;
         }        
-        holdingItems.Add(targetItem);        
         _animator.SetBool("isHoldingItem", true);
+        if (IsHoldingItems() == 2)
+        {
+            canInteract = false;
+            interactWith = "";
+        }
     }
 
     private void PickItem()
@@ -346,10 +347,9 @@ public class PlayerEntity : MonoBehaviour
     {
         holdingObjects.itemOne = "";
         holdingObjects.itemTwo = "";
-        foreach(GameObject obj in holdingItems)
-        {
-            Destroy(obj);
-        }
+        Destroy(holdingObjects.firstItem);
+        Destroy(holdingObjects.secondItem);
+
         _animator.SetBool("isHoldingItem", false);
     }
 

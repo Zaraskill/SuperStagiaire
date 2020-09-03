@@ -6,7 +6,7 @@ public class Printer : MonoBehaviour
 {
 
     public float timePrint;
-    public int numberCopiesEnd;
+    public GameObject photocopy;
     private float timerPrint;
     private bool hasStartPrint;
     private PlayerEntity player;
@@ -25,8 +25,9 @@ public class Printer : MonoBehaviour
             timerPrint -= Time.deltaTime;
             if(timerPrint <= 0)
             {
+                hasStartPrint = false;
                 timerPrint = timePrint;
-                player.ObtainPhotocopy(numberCopiesEnd);
+                player.ObtainPhotocopy(photocopy);
             }
         }
     }
