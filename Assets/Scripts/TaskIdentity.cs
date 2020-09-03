@@ -18,34 +18,19 @@ public class TaskIdentity : MonoBehaviour
     void Start()
     {
         img = gameObject.GetComponent<Image>();
+        CreateTask();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A)) 
-        {  
-                CreateTask(); //just a test. 
-        }
-        
-    }
 
     private void CreateTask()
     {
         coworker = Random.Range(0, coworkersList.Length);
         img.color = coworkersList[coworker];
         randomTask = Random.Range(0, task.Length);
-        if(task[randomTask]== "cofee")
-        {
-            type = 0;
-            
-        }
-        else if(task[randomTask] == "printer")
-        {
-            type = 1;
-            
-        }
-        else
+        type = randomTask;
+
+        
+        if(type == 2)
         {
             randomArchiveColor = Random.Range(0, colorOfArchive.Length); // choosing color for archive
             if(colorOfArchive[randomArchiveColor]== colorOfArchive[0])
@@ -64,18 +49,19 @@ public class TaskIdentity : MonoBehaviour
                 //archive verte
             }
 
-            //print("New task: " + colorOfArchive[randomArchiveColor] + task[randomTask] + " for"+ coworkersList[randomCoworker]+".");
         }
-        /*        else
-                {
-                    print("New task: " + *//*colorOfArchive[randomArchiveColor] +*//* task[randomTask] + " for" + coworkers[randomCoworker] + ".");
-                }*/
-        print("coworker: " + coworker + " type: " + type);
-        taskIcon.sprite = taskSprite[type];
+        print("coworker: " + coworker + " type: " + type); //debug
+        taskIcon.sprite = taskSprite[type];//change icon
     }
 
     public void AutoDestroy()
     {
         Destroy(gameObject);
+    }
+
+    public GameObject IsFulfilled()
+    {
+        return null; 
+        // return gameObject;
     }
 }
