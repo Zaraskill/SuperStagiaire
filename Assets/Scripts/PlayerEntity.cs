@@ -20,26 +20,30 @@ public class PlayerEntity : MonoBehaviour
     private float friction;
     private float turnFriction;
 
+    //Interation
+    private bool interactWithWorker;
+
     //Objets
     [Header("Objets")]
     public string[] holdingObjects;
     public bool canPickItem;
+    public GameObject itemHoldOne;
+    public GameObject itemHoldTwo;
     private GameObject targetItem;
+    private List<GameObject> holdingItems;
     private bool isHoldingObject;
     private float numberOfCopies;
 
     //Rigidbody
     [Header("Rigidbody")]
-    public Rigidbody2D _rigidbody;
+    private Rigidbody2D _rigidbody;
 
     //Animator
     [Header("Animator")]
-    public Animator _animator;
+    private Animator _animator;
 
-    //Model
-    [Header("Models")]
-    public List<Sprite> ModelsSprites;
-    private SpriteRenderer spritePlayer;
+    [Header("A delete avec integration meca printer")]
+    public GameObject photocopy;
 
     // Debug
     [Header("Debug")]
@@ -51,10 +55,10 @@ public class PlayerEntity : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _rigidbody.gravityScale = 0;
-        spritePlayer = GetComponent<SpriteRenderer>();
         holdingObjects = new string[2] { "", "" };
         turnFriction = baseTurnFriction;
         friction = baseFriction;
+        holdingItems = new List<GameObject>();
     }
 
     // Start is called before the first frame update
@@ -84,6 +88,8 @@ public class PlayerEntity : MonoBehaviour
         GUILayout.Label("orientDir = " + orientDir);
         GUILayout.Label("holdingItem = " + isHoldingObject);
         GUILayout.Label("pickItem = " + canPickItem);
+        GUILayout.Label("item 1 = " + holdingObjects[0]);
+        GUILayout.Label("item 2 = " + holdingObjects[1]);
         GUILayout.EndVertical();
     }
 
@@ -178,35 +184,127 @@ public class PlayerEntity : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "ArchivesDocument")
+        if(collision.gameObject.tag == "Worker")
         {
-            if(holdingObjects[1].Contains(""))
+            interactWithWorker = true;
+            canPickItem = true;
+        }
+        else if(collision.gameObject.tag == "ArchivesDocument")
+        {
+            interactWithWorker = false;
+            if(!IsHoldingItems())
             {
                 canPickItem = true;
                 targetItem = collision.gameObject;
             }
         }
+        else if (collision.gameObject.tag == "Printer")
+        {
+            
+        }
+        else if (collision.gameObject.tag == "CoffeeMachine")
+        {
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        canPickItem = false;
     }
 
     #endregion
 
-    #region Items
+    #region Interact
 
-    public void PickItem()
+    public void Interact()
     {
-        if(holdingObjects[0].Contains(""))
+        if (interactWithWorker)
         {
+            GiveToWorker();
+        }
+        else
+        {
+            PickItem();
+        }
+    }
+
+    private void PickItem()
+    {
+        if (!canPickItem)
+        {
+            return;
+        }
+        if (holdingObjects[0].Contains(""))
+        {
+            if (targetItem.tag == "ArchivesDocument")
+            {
+                targetItem.transform.SetParent(this.transform);
+                targetItem.transform.localPosition = itemHoldOne.transform.localPosition;
+                holdingItems.Add(targetItem);
+            }
             holdingObjects[0] = targetItem.tag;
+            targetItem.GetComponent<CircleCollider2D>().enabled = false;
+            targetItem.GetComponent<BoxCollider2D>().enabled = false;
             isHoldingObject = true;
             _animator.SetBool("isHoldingItem", true);
         }
         else
         {
             holdingObjects[1] = targetItem.tag;
+            if (targetItem.tag == "ArchivesDocument")
+            {
+                targetItem.transform.SetParent(this.transform);
+                targetItem.transform.localPosition = itemHoldTwo.transform.localPosition;
+                holdingItems.Add(targetItem);
+            }
             isHoldingObject = true;
+            canPickItem = false;
             _animator.SetBool("isHoldingItem", true);
         }
     }
 
+    private void GiveToWorker()
+    {
+        holdingObjects[0] = "";
+        holdingObjects[1] = "";
+        foreach(GameObject obj in holdingItems)
+        {
+            Destroy(obj);
+        }
+        isHoldingObject = false;
+        _animator.SetBool("isHoldingItem", false);
+    }
+
     #endregion
+
+    #region Items
+
+    private bool IsHoldingItems()
+    {
+        if(holdingObjects[0].Contains("") && holdingObjects[1].Contains(""))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private float IsHoldingPhotocopy()
+    {
+        if (IsHoldingItems())
+        {
+            if (holdingObjects[0].Contains("Photocopy"))
+            {
+                return 0;
+            }
+            if (holdingObjects[1].Contains("Photocopy"))
+            {
+                return 1;
+            }
+        }
+        return 2;
+    }
+
+    #endregion
+
 }
