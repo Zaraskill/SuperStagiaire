@@ -6,15 +6,21 @@ public class TaskManager : MonoBehaviour
 {
     public int tasksPerMinuteWhenStarting;
     public GameObject task;
+    public GameObject player;
+
+    public Vector3[] tasksSlots; 
 
     private float waitingTime;
     private bool isCounting;
+    private List<GameObject> taskList;
     
     //initialisation of tasks list
     void Start()
     {
         waitingTime = tasksPerMinuteWhenStarting / 60;
         isCounting = false;
+
+        taskList = new List<GameObject>(); 
         //créer liste des tasks
     }
 
@@ -24,26 +30,61 @@ public class TaskManager : MonoBehaviour
             StartCoroutine("WaitAndSpawn");
     }
 
+    private Vector3 ChooseLocation()
+    {
+        //Partie de Noé. Reservée à Noé. Ne pas toucher sauf Noé.
+
+        return (new Vector3(0, 0, 0));
+        //placeholder de fonction
+        //tableau de structure qui retiennent chacune une pos & un bool "occupied"
+    }
+
+    private Quaternion ChooseRotation()
+    {
+        float z = 0f;
+        float y = 0f;
+
+        z = Random.Range(-13, 13);
+        y = ((int)Random.Range(0, 1) == 1) ? 0 : 180;//optionnel, rotation miroir sur le postit
+        return (Quaternion.Euler(z, 0f, y));
+    }
+
     IEnumerator WaitAndSpawn()
     {
         isCounting = true;
 
         yield return new WaitForSeconds(waitingTime);
 
-        //Instantiate(task, );
+        GameObject taskToAdd = Instantiate(task, ChooseLocation(), ChooseRotation());
+        taskList.Add(taskToAdd);
+
         isCounting = false;
     }
 
-    // Update is called once per frame
     public void TriggerCoworker(CoworkerScript coworker)
     {
+        GameObject[] toDestroy = { null, null };
+        int i = 0;
         bool isHappy = false;
-        //2.boucle dans la liste en cherchant la valeur du collègue triggered
-        //3.si ya une tâche à lui, on check si elle est fulfilled (appelle de fonction interne à la task pour checker si fulfilled)
-        //4.si oui, isHappy = true; && destroy task && destroy chainon liste && destroy objet donné dans inventaire joueur
-        //5.si non, rien;
-        //6.oui ou non, on continue la boucle et on recommence les étapes 3 à 6 //////////////////////////////////////////////////////////a voir avec GDS (partie sur si plusieurs tasks validables, validées en un press)
-        //7.qd sort, si !isHappy collègueTriggered.Mad() si isHappy collègueTriggered.Happy()
 
+        foreach (GameObject lookedAt in taskList)
+        {
+            if (i < 2 && lookedAt.GetComponent<TaskTestScript>().worker == coworker.number)
+                toDestroy[i] = lookedAt.GetComponent<TaskTestScript>().IsFulfilled();
+            if (i < 2 && toDestroy[i] != null)
+                i++;
+        }
+
+        while (i > 0)
+        {
+            coworker.GetComponent<CoworkerScript>().Happy();
+            i--;
+            player.GetComponent<PlayerEntity>().EmptyHands(toDestroy[i].GetComponent<TaskTestScript>().type);////envoie le int du type de tâche pour savoir quoi jeter
+            taskList.Remove(toDestroy[i]);
+            toDestroy[i].GetComponent<TaskTestScript>().AutoDestroy();
+            isHappy = true;
+        }
+        if (!isHappy)
+            coworker.GetComponent<CoworkerScript>().Mad();
     }
 }

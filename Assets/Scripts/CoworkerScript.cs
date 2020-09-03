@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class CoworkerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int number;
+
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void Mad()
+    {
+        Debug.Log("Coworker " + number + " is mad");
+    }
+
+    public void Happy()
+    {
+        Debug.Log("Coworker " + number + " is happy");
     }
 }
