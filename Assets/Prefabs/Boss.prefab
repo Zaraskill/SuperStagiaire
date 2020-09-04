@@ -176,3 +176,5 @@ MonoBehaviour:
   GT1: {fileID: 0}
   GT2: {fileID: 0}
   GT3: {fileID: 0}
+  soundHappy: {fileID: 8300000, guid: 219d6c8a2ef26884eb0693b076c0f741, type: 3}
+  soundAngry: {fileID: 8300000, guid: 0b8463980da5cde4fa15313a5b0b16b7, type: 3}

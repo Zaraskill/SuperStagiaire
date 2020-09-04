@@ -53,6 +53,8 @@ public class PlayerEntity : MonoBehaviour
     public AudioSource audioSourceMove;
     public AudioSource audioSourceCoffee;
     public AudioSource audioSource;
+    private int soundWalkOnOff = 3;
+
     // Debug
     [Header("Debug")]
     public bool _debugMode = false;
@@ -127,14 +129,20 @@ public class PlayerEntity : MonoBehaviour
             speed += moveDir * acceleration * Time.fixedDeltaTime;
 
 
-            if (!audioSourceMove.isPlaying)
+            if (!audioSourceMove.isPlaying && soundWalkOnOff == 10)
             {
+                soundWalkOnOff = 0;
                 audioSourceMove.clip = soundMove;
                 audioSourceMove.Play();
             }
+            else if (!audioSourceMove.isPlaying && soundWalkOnOff != 10)
+            {
+                soundWalkOnOff ++;
+            }
 
 
-            if (speed.sqrMagnitude > moveSpeedMax * moveSpeedMax)
+
+                if (speed.sqrMagnitude > moveSpeedMax * moveSpeedMax)
             {
                 speed = speed.normalized * moveSpeedMax;
             }

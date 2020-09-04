@@ -16,6 +16,9 @@ public class BossScript : MonoBehaviour
     private bool success;          
     private bool isCounting;
 
+    public AudioClip soundHappy;
+    public AudioClip soundAngry;
+
     private void Awake()
     {
         if (instance == null)
@@ -105,6 +108,7 @@ public class BossScript : MonoBehaviour
         StopCoroutine("TimerAnim");
         GetComponent<Animator>().SetInteger("happyness", 1);
         StartCoroutine("TimerAnim");
+        AudioSource.PlayClipAtPoint(soundHappy, transform.position);
         Debug.Log("yes !");//////////////// A CHANGER
     }
 
@@ -113,6 +117,7 @@ public class BossScript : MonoBehaviour
         StopCoroutine("TimerAnim");
         GetComponent<Animator>().SetInteger("happyness", -1);
         StartCoroutine("TimerAnim");
+        AudioSource.PlayClipAtPoint(soundAngry, transform.position);
         Debug.Log("GRRRRR");/////////////////// A CHANGER
     }
 
