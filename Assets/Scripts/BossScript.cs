@@ -18,6 +18,7 @@ public class BossScript : MonoBehaviour
 
     public AudioClip soundHappy;
     public AudioClip soundAngry;
+    public AudioClip soundBossTask;
 
     private void Awake()
     {
@@ -36,7 +37,11 @@ public class BossScript : MonoBehaviour
     void Update()
     {
         if (!isCounting)
+        {
             StartCoroutine("WaitAndSpawn");
+            //AudioSource.PlayClipAtPoint(soundBossTask, transform.position);
+        }
+
         CheckForSuccess();
     }
 
