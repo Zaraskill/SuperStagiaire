@@ -6,23 +6,24 @@ using UnityEngine.XR.WSA.Input;
 public class LightTest : MonoBehaviour
 {
     private Light l;
-    bool start = true;
+    public float defaultLight;
+
     void Start()
     {
         l = gameObject.GetComponent<Light>();
-        l.spotAngle = 30;
+        l.spotAngle = defaultLight;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        //l.color = new Color(0.2f, 0.5f, 0.9f, 1); //color test
-        
-        if (start == true)
-        {
 
-        }
+    public void addFog()
+    {
+        l.spotAngle -= defaultLight/20;
     }
 
+    public void remFog()
+    {
+        l.spotAngle += defaultLight / 20;
+    }
 
 }
