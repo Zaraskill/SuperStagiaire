@@ -15,6 +15,7 @@ public class TaskManager : MonoBehaviour
     public List<Task> tasks;
     // public GameObject player;
     public AudioClip soundPopPostIt;
+    public GameObject gameOver;
 
     private float waitingTime;
     private bool isCounting;
@@ -79,6 +80,8 @@ public class TaskManager : MonoBehaviour
         }
         taskList.Remove(task.gameObject);
         task.AutoDestroy();
+
+        gameOver.SetActive(true);
         //IMPLEMENTER GAMEOVER ICI !!!!!!!!!
         return (new Vector3 (0,0,0));
     }
