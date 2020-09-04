@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public string gameSceneName;
-    public string mainMenuSceneName, creditSceneName;
+    public string mainMenuSceneName, creditSceneName, controlSceneName;
     public GameObject pauseObject;
     public GameObject creditBG, controlsBg, playBg;
 
@@ -64,6 +64,11 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(creditSceneName);
     }
 
+
+    public void ControlMenu()
+    {
+        SceneManager.LoadScene(controlSceneName);
+    }
 
 
 
