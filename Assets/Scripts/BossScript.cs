@@ -102,11 +102,23 @@ public class BossScript : MonoBehaviour
 
     public void Happy()
     {
+        StopCoroutine("TimerAnim");
+        GetComponent<Animator>().SetInteger("happyness", 1);
+        StartCoroutine("TimerAnim");
         Debug.Log("yes !");//////////////// A CHANGER
     }
 
     public void Mad()
     {
+        StopCoroutine("TimerAnim");
+        GetComponent<Animator>().SetInteger("happyness", -1);
+        StartCoroutine("TimerAnim");
         Debug.Log("GRRRRR");/////////////////// A CHANGER
+    }
+
+    IEnumerator TimerAnim()
+    {
+        yield return new WaitForSeconds(3f);
+        GetComponent<Animator>().SetFloat("happiness", 0);
     }
 }

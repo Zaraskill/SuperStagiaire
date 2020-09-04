@@ -145,7 +145,7 @@ public class TaskManager : MonoBehaviour
 
     public void IsFulfilled(Inventory inventory, string worker, PlayerEntity player)
     {
-        foreach(Task task in tasks)
+        foreach (Task task in tasks)
         {
             if (task.worker == worker)
             {
@@ -155,6 +155,7 @@ public class TaskManager : MonoBehaviour
                     Destroy(task.postit);
                     player.DeleteItem("CoffeeFull");
                     taskDone++;
+                    player.targetItem.GetComponent<CoworkerScript>().Happy();
                     return;
                 }
                 else if (task.type == "printer" && (inventory.itemOne == "Photocopy" || inventory.itemTwo == "Photocopy"))
@@ -163,6 +164,7 @@ public class TaskManager : MonoBehaviour
                     Destroy(task.postit);
                     player.DeleteItem("Photocopy");
                     taskDone++;
+                    player.targetItem.GetComponent<CoworkerScript>().Happy();
                     return;
                 }
                 else if (task.type == "archive")
@@ -173,6 +175,7 @@ public class TaskManager : MonoBehaviour
                         Destroy(task.postit);
                         player.DeleteItem("RedDocument");
                         taskDone++;
+                        player.targetItem.GetComponent<CoworkerScript>().Happy();
                         return;
                     }
                     else if (task.worker == "blue" && (inventory.itemOne == "BlueDocument" || inventory.itemTwo == "BlueDocument"))
@@ -181,6 +184,7 @@ public class TaskManager : MonoBehaviour
                         Destroy(task.postit);
                         player.DeleteItem("BlueDocument");
                         taskDone++;
+                        player.targetItem.GetComponent<CoworkerScript>().Happy();
                         return;
                     }
                     else if (task.worker == "green" && (inventory.itemOne == "GreenDocument" || inventory.itemTwo == "GreenDocument"))
@@ -189,6 +193,7 @@ public class TaskManager : MonoBehaviour
                         Destroy(task.postit);
                         player.DeleteItem("GreenDocument");
                         taskDone++;
+                        player.targetItem.GetComponent<CoworkerScript>().Happy();
                         return;
                     }
                     else if (task.worker == "purple" && (inventory.itemOne == "PurpleDocument" || inventory.itemTwo == "PurpleDocument"))
@@ -197,15 +202,24 @@ public class TaskManager : MonoBehaviour
                         Destroy(task.postit);
                         player.DeleteItem("PurpleDocument");
                         taskDone++;
+                        player.targetItem.GetComponent<CoworkerScript>().Happy();
                         return;
                     }
                 }
+                player.targetItem.GetComponent<CoworkerScript>().Mad();
             }
         }
+        player.targetItem.GetComponent<CoworkerScript>().Mad();
         //fonction return null si la tâche n'est PAS fulfilled et gameObject si elle est fulfilled
         //probe l'inventaire pour voir si l'item voulu est là.
         //si non -> return null
         //si oui, appelle fonction interne de Player pour destroy cet item de son inventaire, puis -> return gameObject
         //(chaque tâche a une var type : 0- coffee, 1- photocopie, 2- dossier1, 3- dossier2, 4- dossier3);
+    }
+
+    IEnumerator TimerAnim(GameObject target)
+    {
+        yield return new WaitForSeconds(3f);
+        target.GetComponent<Animator>().SetFloat("happiness", 0);
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5888138936301311871}
   - component: {fileID: 8754993443593364727}
   - component: {fileID: 5722229435861606119}
-  - component: {fileID: 2472079497858711816}
+  - component: {fileID: 2714839506160522358}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -159,7 +159,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2472079497858711816
+--- !u!114 &2714839506160522358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,10 +168,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2307714551114809326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6cb5e2a240bcdc459ff43f617691f78, type: 3}
+  m_Script: {fileID: 11500000, guid: f588378cfeccc9143a802c3e676828d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  number: 0
-  fulfilled: 0
-  folderSprites: []
-  taskIcon: {fileID: 0}
+  goldenTaskSpawnTime: 0
+  goldenTaskTimeToFulfill: 0
+  GT1: {fileID: 0}
+  GT2: {fileID: 0}
+  GT3: {fileID: 0}
