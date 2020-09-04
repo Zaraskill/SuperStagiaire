@@ -9,10 +9,14 @@ public class interactionMachineACafe : MonoBehaviour
     
     private bool attente;
     private bool cafePret = false;
+
     public GameObject coffeeFull;
     private PlayerEntity player;
     private Animator _animator;
-
+    private bool hasStartPrint;
+    private float timerPrint;
+    public GameObject objToScale;
+    public GameObject child;
 
     private void Awake()
     {
@@ -28,8 +32,35 @@ public class interactionMachineACafe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (hasStartPrint)
+        {
+            timerPrint += Time.deltaTime;
 
+            objToScale.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, timerPrint / tempsDePreparationCafe);
+            if (timerPrint >= tempsDePreparationCafe)
+            {
+                hasStartPrint = false;
+                timerPrint = 0;
+                _animator.SetBool("working", false);
+                cafePret = true;
+                attente = false;
+            }
+        }
     }
+
+    public void StartPrinting(PlayerEntity player)
+    {
+        child.SetActive(true);
+        this.player = player;
+        player.canMove = false;
+        hasStartPrint = true;
+    }
+
+    public bool HasStartPrint()
+    {
+        return hasStartPrint;
+    }
+
 
     public void Interact(PlayerEntity playerEntity)
     {
@@ -39,12 +70,16 @@ public class interactionMachineACafe : MonoBehaviour
             player.GetCoffeeFull(coffeeFull);
             _animator.SetTrigger("pickedUp");
             cafePret = false;
+            child.SetActive(false);
         }
         else if (!attente && player.IsHoldingEmptyCoffee())
         {
             player.DestroyCoffeeEmpty();
+            child.SetActive(true);
             _animator.SetBool("working", true);
-            StartCoroutine(PreparationCafe());
+            hasStartPrint = true;
+            attente = true;
+            player.PlaySoundCoffee();
         }
     }
 
@@ -52,17 +87,4 @@ public class interactionMachineACafe : MonoBehaviour
     {
         return cafePret;
     }
-
-    IEnumerator PreparationCafe()
-    {
-        Debug.Log("coffee start");
-        attente = true;
-        player.PlaySoundCoffee();
-        yield return new WaitForSeconds(tempsDePreparationCafe);
-        _animator.SetBool("working", false);
-        Debug.Log("coffee end");
-        attente = false;
-        cafePret = true;
-    }
-
 }

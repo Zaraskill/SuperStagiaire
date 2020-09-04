@@ -7,6 +7,8 @@ public class Printer : MonoBehaviour
 
     public float timePrint;
     public GameObject photocopy;
+    public GameObject child;
+    public GameObject objToScale;
     private float timerPrint;
     private bool hasStartPrint;
     private PlayerEntity player;
@@ -14,7 +16,6 @@ public class Printer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timerPrint = timePrint;
     }
 
     // Update is called once per frame
@@ -22,11 +23,14 @@ public class Printer : MonoBehaviour
     {
         if (hasStartPrint)
         {
-            timerPrint -= Time.deltaTime;
-            if(timerPrint <= 0)
+            timerPrint += Time.deltaTime;
+
+            objToScale.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one,timerPrint/timePrint);
+            if(timerPrint >= timePrint)
             {
+                StopPrinting();
                 hasStartPrint = false;
-                timerPrint = timePrint;
+                timerPrint = 0;
                 player.canMove = true;
                 player.ObtainPhotocopy(photocopy);
             }
@@ -35,7 +39,8 @@ public class Printer : MonoBehaviour
 
     public void StartPrinting(PlayerEntity player)
     {
-        player.PlaySoundPrinter();
+        child.SetActive(true);
+        //player.PlaySoundPrinter();
         this.player = player;
         player.canMove = false;
         hasStartPrint = true;
@@ -43,7 +48,15 @@ public class Printer : MonoBehaviour
 
     public void StopPrinting()
     {
+        player.canMove = true;
+        objToScale.transform.localScale = Vector3.zero;
+        child.SetActive(false);
         hasStartPrint = false;
-        timerPrint = timePrint;
+        timerPrint = 0;
+    }
+
+    public bool HasStartPrint()
+    {
+        return hasStartPrint;
     }
 }
