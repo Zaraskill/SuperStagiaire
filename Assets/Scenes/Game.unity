@@ -5686,7 +5686,7 @@ PrefabInstance:
       objectReference: {fileID: 1209652355}
     - target: {fileID: 982473159810094925, guid: 5d10c547b068a7b4a98092b75d055e5b, type: 3}
       propertyPath: tasksPerMinuteWhenStarting
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d10c547b068a7b4a98092b75d055e5b, type: 3}
