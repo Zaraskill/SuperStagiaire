@@ -1601,11 +1601,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1970327974815646632, guid: 0eb0debf45e628147ac30dfab14374b9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.9
+      value: 22.54
       objectReference: {fileID: 0}
     - target: {fileID: 1970327974815646632, guid: 0eb0debf45e628147ac30dfab14374b9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12
+      value: 11.48
       objectReference: {fileID: 0}
     - target: {fileID: 1970327974815646632, guid: 0eb0debf45e628147ac30dfab14374b9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3071,7 +3071,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 377e73db7cff8ec49ab9daf6d7adf895, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 0.02
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4928,7 +4928,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4594488152895649117, guid: 95a6a0c2a06bdc745a047facfa672631, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.217238
+      value: -21.92
       objectReference: {fileID: 0}
     - target: {fileID: 4594488152895649117, guid: 95a6a0c2a06bdc745a047facfa672631, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7851,7 +7851,7 @@ PrefabInstance:
       objectReference: {fileID: 1542482563}
     - target: {fileID: 2714839506160522358, guid: 0ed180f42b03fd341b249cd30095e7e9, type: 3}
       propertyPath: goldenTaskSpawnTime
-      value: 120
+      value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 2714839506160522358, guid: 0ed180f42b03fd341b249cd30095e7e9, type: 3}
       propertyPath: goldenTaskTimeToFulfill
