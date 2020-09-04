@@ -127,11 +127,11 @@ public class PlayerEntity : MonoBehaviour
             speed += moveDir * acceleration * Time.fixedDeltaTime;
 
 
-            if(!audioSourceMove.isPlaying)
-            {
-                audioSourceMove.clip = soundMove;
-                audioSourceMove.Play();
-            }
+            //if(!audioSourceMove.isPlaying)
+            //{
+            //    audioSourceMove.clip = soundMove;
+            //    audioSourceMove.Play();
+            //}
 
 
             if (speed.sqrMagnitude > moveSpeedMax * moveSpeedMax)
