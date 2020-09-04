@@ -397,7 +397,11 @@ public class PlayerEntity : MonoBehaviour
         else if (targetItem.tag == "WorkerPurple")
         {
             TaskManager.instance.IsFulfilled(holdingObjects, "purple", this);
-        }        
+        }
+        else if (targetItem.tag == "Boss")
+        {
+            BossScript.instance.TriggerBoss(holdingObjects, this);
+        }
     }
 
     public void  DeleteItem(string tagObjet)

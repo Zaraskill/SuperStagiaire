@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
+    public static BossScript instance;
+
     public float goldenTaskSpawnTime;
     public float goldenTaskTimeToFulfill;
 
@@ -13,6 +15,14 @@ public class BossScript : MonoBehaviour
 
     private bool success;          
     private bool isCounting;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+    }
 
     void Start()
     {
@@ -57,7 +67,7 @@ public class BossScript : MonoBehaviour
     }
 
     //called by player when press A near boss
-    public void TriggerBoss()
+    public void TriggerBoss(Inventory inventory, PlayerEntity player)
     {
         bool status = false;
 
