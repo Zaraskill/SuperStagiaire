@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public string gameSceneName;
-    public string mainMenuSceneName;
+    public string mainMenuSceneName, creditSceneName;
     public GameObject pauseObject;
+    public GameObject creditBG, controlsBg, playBg;
 
     private void Start()
     {
@@ -56,4 +57,43 @@ public class MenuManager : MonoBehaviour
         print("pause menu closed");
         Time.timeScale = 1;
     } 
+
+
+    public void CreditMenu()
+    {
+        SceneManager.LoadScene(creditSceneName);
+    }
+
+
+
+
+
+
+
+
+    public void ActiveBgCredit()
+    {
+        creditBG.SetActive(true);
+    }
+    public void DisableBgCredit()
+    {
+        creditBG.SetActive(false);
+    }
+    public void ActiveBgControls()
+    {
+        controlsBg.SetActive(true);
+    }
+    public void DisableBgControls()
+    {
+        controlsBg.SetActive(false);
+    }
+
+    public void ActiveBgPlay()
+    {
+        playBg.SetActive(true);
+    }
+    public void DisableBgPlay()
+    {
+        playBg.SetActive(false);
+    }
 }

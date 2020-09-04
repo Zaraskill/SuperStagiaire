@@ -45,6 +45,7 @@ public class TaskManager : MonoBehaviour
         isCounting = false;
 
         taskList = new List<GameObject>(); 
+        
     }
 
 
@@ -58,6 +59,7 @@ public class TaskManager : MonoBehaviour
     public void AddTaskDone()
     {
         taskDone++;
+
     }
 
     public Vector3 ChooseLocation(TaskIdentity task)
