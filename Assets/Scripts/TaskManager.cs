@@ -5,7 +5,7 @@ using System;
 
 public class TaskManager : MonoBehaviour
 {
-    public static TaskManager instance = null;
+    public static TaskManager instance;
 
     private int taskDone = 0;
     private float timerPlay = 0f;
