@@ -52,33 +52,21 @@ public class TaskIdentity : MonoBehaviour
         img.color = coworkersList[coworker];
         randomTask = UnityEngine.Random.Range(0, task.Length);
         type = randomTask;
-        if(type == 0)
-        {
+        if (type == 0)
             typeTask = "coffee";
-        }
         else if (type == 1)
-        {
             typeTask = "printer";
-        }
-        else if(type == 2)
+        else if (type == 2)
         {
-            randomArchiveColor = UnityEngine.Random.Range(0, colorOfArchive.Length); // choosing color for archive
-            if(colorOfArchive[randomArchiveColor]== colorOfArchive[0])
-            {
-                type = 2;
-                // archive bleue
-            }
-            if (colorOfArchive[randomArchiveColor] == colorOfArchive[1])
-            {
-                type = 3;
-                // archive rouge
-            }
-            if (colorOfArchive[randomArchiveColor] == colorOfArchive[2])
-            {
-                type = 4;
-                //archive verte
-            }
-
+            type += coworker;
+            if (type == 2)
+                typeTask = "BlueFolder";
+            else if (type == 3)
+                typeTask = "GreenFolder";
+            else if (type == 4)
+                typeTask = "PurpleFolder";
+            else if (type == 5)
+                typeTask = "RedFolder";
         }
         taskIcon.sprite = taskSprite[type];//change icon
         TaskManager.instance.tasks.Add(new Task { worker = work, type = typeTask, postit = this.gameObject });

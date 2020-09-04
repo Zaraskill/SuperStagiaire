@@ -70,6 +70,7 @@ public class TaskManager : MonoBehaviour
                 spawnPoints[i].occupied = true;
                 task.slot = i;
                 Vector3 pos = new Vector3(spawnPoints[i].position.x * Screen.width / refScreenSize.x, Screen.height - (spawnPoints[i].position.y * Screen.height / refScreenSize.y), 0f);
+                //Création de son ici !! :D
                 return (pos);
             }
             i++;

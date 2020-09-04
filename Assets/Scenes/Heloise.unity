@@ -1938,6 +1938,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoldenTask1
       objectReference: {fileID: 0}
+    - target: {fileID: 7002790981377594938, guid: bad15d0383303fb409b88542508b5ca2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7002790981377594939, guid: bad15d0383303fb409b88542508b5ca2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
