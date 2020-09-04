@@ -58,6 +58,11 @@ public class MenuManager : MonoBehaviour
         Time.timeScale = 1;
     } 
 
+    public void ReturnMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
 
     public void CreditMenu()
     {

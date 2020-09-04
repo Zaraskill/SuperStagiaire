@@ -248,15 +248,15 @@ public class PlayerEntity : MonoBehaviour
         }
         else if (collision.gameObject.tag == "CoffeeMachine")
         {
-            if (IsHoldingItems() > 0)
-            {
+
                 if (holdingObjects.itemOne == "CoffeeEmpty" || holdingObjects.itemTwo == "CoffeeEmpty" || holdingObjects.itemOne == "" || holdingObjects.itemTwo == "")
                 {
                     canInteract = true;
                     interactWith = "coffeeMachine";
                     targetItem = collision.gameObject;
                 }
-            }
+            
+
         }
         else if (collision.gameObject.tag == "Trash")
         {
