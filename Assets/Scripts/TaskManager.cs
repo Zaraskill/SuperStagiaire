@@ -84,7 +84,6 @@ public class TaskManager : MonoBehaviour
         task.AutoDestroy();
 
         gameOver.SetActive(true);
-        //IMPLEMENTER GAMEOVER ICI !!!!!!!!!
         return (new Vector3 (0,0,0));
     }
 
@@ -159,6 +158,7 @@ public class TaskManager : MonoBehaviour
             {
                 if (task.type == "coffee" && (inventory.itemOne == "CoffeeFull" || inventory.itemTwo == "CoffeeFull"))
                 {
+                    spawnPoints[task.postit.GetComponent<TaskIdentity>().slot].occupied = false;
                     tasks.Remove(task);
                     Destroy(task.postit);
                     player.DeleteItem("CoffeeFull");
@@ -169,6 +169,7 @@ public class TaskManager : MonoBehaviour
                 }
                 else if (task.type == "printer" && (inventory.itemOne == "Photocopy" || inventory.itemTwo == "Photocopy"))
                 {
+                    spawnPoints[task.postit.GetComponent<TaskIdentity>().slot].occupied = false;
                     tasks.Remove(task);
                     Destroy(task.postit);
                     player.DeleteItem("Photocopy");
@@ -181,6 +182,7 @@ public class TaskManager : MonoBehaviour
                 {
                     if (task.worker == "red" && (inventory.itemOne == "RedDocument" || inventory.itemTwo == "RedDocument"))
                     {
+                        spawnPoints[task.postit.GetComponent<TaskIdentity>().slot].occupied = false;
                         tasks.Remove(task);
                         Destroy(task.postit);
                         player.DeleteItem("RedDocument");
@@ -191,6 +193,7 @@ public class TaskManager : MonoBehaviour
                     }
                     else if (task.worker == "blue" && (inventory.itemOne == "BlueDocument" || inventory.itemTwo == "BlueDocument"))
                     {
+                        spawnPoints[task.postit.GetComponent<TaskIdentity>().slot].occupied = false;
                         tasks.Remove(task);
                         Destroy(task.postit);
                         player.DeleteItem("BlueDocument");
@@ -201,6 +204,7 @@ public class TaskManager : MonoBehaviour
                     }
                     else if (task.worker == "green" && (inventory.itemOne == "GreenDocument" || inventory.itemTwo == "GreenDocument"))
                     {
+                        spawnPoints[task.postit.GetComponent<TaskIdentity>().slot].occupied = false;
                         tasks.Remove(task);
                         Destroy(task.postit);
                         player.DeleteItem("GreenDocument");
@@ -211,6 +215,7 @@ public class TaskManager : MonoBehaviour
                     }
                     else if (task.worker == "purple" && (inventory.itemOne == "PurpleDocument" || inventory.itemTwo == "PurpleDocument"))
                     {
+                        spawnPoints[task.postit.GetComponent<TaskIdentity>().slot].occupied = false;
                         tasks.Remove(task);
                         Destroy(task.postit);
                         player.DeleteItem("PurpleDocument");
