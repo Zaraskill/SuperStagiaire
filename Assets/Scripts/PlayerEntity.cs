@@ -127,11 +127,11 @@ public class PlayerEntity : MonoBehaviour
             speed += moveDir * acceleration * Time.fixedDeltaTime;
 
 
-            //if(!audioSourceMove.isPlaying)
-            //{
-            //    audioSourceMove.clip = soundMove;
-            //    audioSourceMove.Play();
-            //}
+            if (!audioSourceMove.isPlaying)
+            {
+                audioSourceMove.clip = soundMove;
+                audioSourceMove.Play();
+            }
 
 
             if (speed.sqrMagnitude > moveSpeedMax * moveSpeedMax)
@@ -211,7 +211,7 @@ public class PlayerEntity : MonoBehaviour
             canInteract = true;
             targetItem = collision.gameObject;
         }
-        else if(collision.gameObject.tag == "ArchivesDocument")
+        else if(collision.gameObject.tag == "RedDocument" || collision.gameObject.tag == "BlueDocument" || collision.gameObject.tag == "GreenDocument"|| collision.gameObject.tag == "PurpleDocument")
         {
             if(IsHoldingItems() < 2)
             {

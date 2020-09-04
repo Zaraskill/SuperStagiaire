@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 793093434285638004}
   - component: {fileID: 6314849372534338291}
   - component: {fileID: 8796775438300992368}
+  - component: {fileID: 8943508288750824905}
   m_Layer: 0
   m_Name: WorkerGreen
   m_TagString: WorkerGreen
@@ -158,3 +159,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8943508288750824905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9179212016147203831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8ce5a42d346ef4d93e8d1088efeb6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  number: 0
+  soundHappy: {fileID: 0}
+  soundAngry: {fileID: 0}
