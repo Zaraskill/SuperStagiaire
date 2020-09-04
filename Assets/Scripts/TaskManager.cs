@@ -45,7 +45,6 @@ public class TaskManager : MonoBehaviour
         isCounting = false;
 
         taskList = new List<GameObject>(); 
-        
     }
 
 
@@ -80,6 +79,7 @@ public class TaskManager : MonoBehaviour
         }
         taskList.Remove(task.gameObject);
         task.AutoDestroy();
+        //IMPLEMENTER GAMEOVER ICI !!!!!!!!!
         return (new Vector3 (0,0,0));
     }
 
