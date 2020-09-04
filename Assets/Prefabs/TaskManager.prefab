@@ -46,6 +46,8 @@ MonoBehaviour:
   tasksPerMinuteWhenStarting: 20
   parentGUI: {fileID: 0}
   task: {fileID: 7934480411355860708, guid: 0ae7731a375a458418f4786a439d3547, type: 3}
+  tasks: []
+  soundPopPostIt: {fileID: 8300000, guid: 3782ba71c7b326c47ac9c1679a55061a, type: 3}
   spawnPoints:
   - position: {x: 144, y: 58, z: 0}
     occupied: 0
