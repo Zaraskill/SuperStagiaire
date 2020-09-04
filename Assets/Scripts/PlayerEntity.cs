@@ -349,6 +349,7 @@ public class PlayerEntity : MonoBehaviour
         {
             return;
         }
+        
         if(targetItem.tag == "CoffeeEmpty")
         {
             if (holdingObjects.itemOne == "" && holdingObjects.itemTwo != "")
@@ -370,6 +371,10 @@ public class PlayerEntity : MonoBehaviour
         }
         else if (holdingObjects.itemOne == "")
         {
+            if (targetItem.tag == "RedDocument" || targetItem.tag == "BlueDocument" || targetItem.tag == "GreenDocument" || targetItem.tag == "PurpleDocument")
+            {
+                Instantiate(targetItem);
+            }
             targetItem.transform.SetParent(this.transform);
             targetItem.transform.localPosition = itemHoldOne.transform.localPosition;
             holdingObjects.firstItem = targetItem;
@@ -381,6 +386,10 @@ public class PlayerEntity : MonoBehaviour
         }
         else
         {
+            if (targetItem.tag == "RedDocument" || targetItem.tag == "BlueDocument" || targetItem.tag == "GreenDocument" || targetItem.tag == "PurpleDocument")
+            {
+                Instantiate(targetItem);
+            }
             holdingObjects.itemTwo = targetItem.tag;
             targetItem.transform.SetParent(this.transform);
             targetItem.transform.localPosition = itemHoldTwo.transform.localPosition;
