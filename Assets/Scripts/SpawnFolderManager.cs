@@ -36,14 +36,14 @@ public class SpawnFolderManager : MonoBehaviour
         GameObject obj = Instantiate(folderBlue);
         obj.transform.position = spawnOne.transform.position;
 
-        obj = Instantiate(folderBlue);
-        obj.transform.position = spawnOne.transform.position;
+        obj = Instantiate(folderRed);
+        obj.transform.position = spawnTwo.transform.position;
         
-        obj = Instantiate(folderBlue);
-        obj.transform.position = spawnOne.transform.position;
+        obj = Instantiate(folderGreen);
+        obj.transform.position = spawnThree.transform.position;
 
-        obj = Instantiate(folderBlue);
-        obj.transform.position = spawnOne.transform.position;
+        obj = Instantiate(folderPurple);
+        obj.transform.position = spawnFour.transform.position;
 /*
         List<GameObject> folders = new List<GameObject>();
         folders.Add(folderBlue);
