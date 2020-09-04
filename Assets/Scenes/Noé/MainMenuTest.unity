@@ -720,9 +720,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1183283528}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1075,9 +1075,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1183283528}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1330,6 +1330,14 @@ PrefabInstance:
       propertyPath: creditBG
       value: 
       objectReference: {fileID: 450399185}
+    - target: {fileID: 8926700991117113286, guid: fa26f63dc68116c4faa3816d68f7237e, type: 3}
+      propertyPath: creditSceneName
+      value: CreditsMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8926700991117113286, guid: fa26f63dc68116c4faa3816d68f7237e, type: 3}
+      propertyPath: gameSceneName
+      value: Game
+      objectReference: {fileID: 0}
     - target: {fileID: 8926700991117113287, guid: fa26f63dc68116c4faa3816d68f7237e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
