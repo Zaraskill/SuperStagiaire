@@ -20,6 +20,9 @@ public class BossScript : MonoBehaviour
     public AudioClip soundAngry;
     public AudioClip soundBossTask;
 
+    public GameObject lightSys;
+    //private LightTest lightTestScript;
+
     private void Awake()
     {
         if (instance == null)
@@ -30,6 +33,7 @@ public class BossScript : MonoBehaviour
 
     void Start()
     {
+        //lightTestScript = lightSys.GetComponent<LightTest>();
         isCounting = false;
         success = false;
     }
@@ -100,6 +104,7 @@ public class BossScript : MonoBehaviour
             GT3.GetComponent<GoldenTaskScript>().fulfilled = false;
             ThumbsUp();
             TaskManager.instance.ClearList();
+            //lightTestScript.resetLight();
         }
     }
 

@@ -17,8 +17,8 @@ public class TaskManager : MonoBehaviour
     public AudioClip soundPopPostIt;
     public GameObject gameOver;
     
-    public GameObject lightSys;
-    private LightTest lightTestScript;
+    //public GameObject lightSys;
+    //private LightTest lightTestScript;
     private float waitingTime;
     private bool isCounting;
     private List<GameObject> taskList;
@@ -43,7 +43,7 @@ public class TaskManager : MonoBehaviour
 
     void Start()
     {
-        lightTestScript = lightSys.GetComponent<LightTest>();
+        //lightTestScript = lightSys.GetComponent<LightTest>();
         waitingTime = 60 / tasksPerMinuteWhenStarting;
         isCounting = false;
 
@@ -104,7 +104,7 @@ public class TaskManager : MonoBehaviour
 
         GameObject taskToAdd = Instantiate(task, parentGUI, false);
         taskList.Add(taskToAdd);
-        lightTestScript.addFog();
+        //lightTestScript.addFog();
         isCounting = false;
     }
 
@@ -164,7 +164,7 @@ public class TaskManager : MonoBehaviour
                     player.DeleteItem("CoffeeFull");
                     taskDone++;
                     player.targetItem.GetComponent<CoworkerScript>().Happy();
-                    lightTestScript.remFog();
+                    //lightTestScript.remFog();
                     return;
                 }
                 else if (task.type == "printer" && (inventory.itemOne == "Photocopy" || inventory.itemTwo == "Photocopy"))
@@ -175,7 +175,7 @@ public class TaskManager : MonoBehaviour
                     player.DeleteItem("Photocopy");
                     taskDone++;
                     player.targetItem.GetComponent<CoworkerScript>().Happy();
-                    lightTestScript.remFog();
+                    //lightTestScript.remFog();
                     return;
                 }
                 else if (task.type == "RedFolder" || task.type == "PurpleFolder" || task.type == "GreenFolder" || task.type == "BlueFolder") 
@@ -188,7 +188,7 @@ public class TaskManager : MonoBehaviour
                         player.DeleteItem("RedDocument");
                         taskDone++;
                         player.targetItem.GetComponent<CoworkerScript>().Happy();
-                        lightTestScript.remFog();
+                        //lightTestScript.remFog();
                         return;
                     }
                     else if (task.worker == "blue" && (inventory.itemOne == "BlueDocument" || inventory.itemTwo == "BlueDocument"))
@@ -199,7 +199,7 @@ public class TaskManager : MonoBehaviour
                         player.DeleteItem("BlueDocument");
                         taskDone++;
                         player.targetItem.GetComponent<CoworkerScript>().Happy();
-                        lightTestScript.remFog();
+                        //lightTestScript.remFog();
                         return;
                     }
                     else if (task.worker == "green" && (inventory.itemOne == "GreenDocument" || inventory.itemTwo == "GreenDocument"))
@@ -210,7 +210,7 @@ public class TaskManager : MonoBehaviour
                         player.DeleteItem("GreenDocument");
                         taskDone++;
                         player.targetItem.GetComponent<CoworkerScript>().Happy();
-                        lightTestScript.remFog();
+                        //lightTestScript.remFog();
                         return;
                     }
                     else if (task.worker == "purple" && (inventory.itemOne == "PurpleDocument" || inventory.itemTwo == "PurpleDocument"))
@@ -221,7 +221,7 @@ public class TaskManager : MonoBehaviour
                         player.DeleteItem("PurpleDocument");
                         taskDone++;
                         player.targetItem.GetComponent<CoworkerScript>().Happy();
-                        lightTestScript.remFog();
+                        //lightTestScript.remFog();
                         return;
                     }
                 }

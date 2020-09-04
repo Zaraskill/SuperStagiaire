@@ -97,7 +97,6 @@ public class MenuManager : MonoBehaviour
     {
         controlsBg.SetActive(false);
     }
-
     public void ActiveBgPlay()
     {
         playBg.SetActive(true);

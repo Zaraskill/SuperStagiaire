@@ -26,4 +26,9 @@ public class LightTest : MonoBehaviour
         l.spotAngle += defaultLight / 20;
     }
 
+    public void resetLight()
+    {
+        l.spotAngle = defaultLight;
+    }
+
 }

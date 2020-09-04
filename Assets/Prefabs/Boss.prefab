@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -178,3 +178,4 @@ MonoBehaviour:
   GT3: {fileID: 0}
   soundHappy: {fileID: 8300000, guid: 219d6c8a2ef26884eb0693b076c0f741, type: 3}
   soundAngry: {fileID: 8300000, guid: 0b8463980da5cde4fa15313a5b0b16b7, type: 3}
+  lightSys: {fileID: 0}

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7883389149396540359}
   - component: {fileID: 5665474054025250785}
   m_Layer: 0
-  m_Name: Trash
+  m_Name: Trash 1
   m_TagString: Trash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
