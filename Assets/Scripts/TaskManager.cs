@@ -54,6 +54,10 @@ public class TaskManager : MonoBehaviour
             StartCoroutine("WaitAndSpawn");
     }
 
+    public void AddTaskDone()
+    {
+        taskDone++;
+    }
 
     public Vector3 ChooseLocation(TaskIdentity task)
     {
@@ -96,7 +100,21 @@ public class TaskManager : MonoBehaviour
         isCounting = false;
     }
 
-    //function called by player
+    public void ClearList()
+    {
+        foreach (Task toDestroy in tasks)
+        {
+            Destroy(toDestroy.postit);
+        }
+        tasks.Clear();
+        foreach (GameObject toDestroyBis in taskList)
+        {
+            toDestroyBis.GetComponent<TaskIdentity>().AutoDestroy();
+        }
+        taskList.Clear();
+    }
+
+    //function called by player//plus appellée. A CLEAN
     public void TriggerCoworker(CoworkerScript coworker)
     {
         GameObject[] toDestroy = { null, null };

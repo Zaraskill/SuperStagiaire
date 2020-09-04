@@ -61,19 +61,20 @@ public class BossScript : MonoBehaviour
 
     private void Failure()
     {
-        //boss mad
-        //tasks disappear
-        //ttes les taches, fulfilled = false
+        Mad();
+        GT1.GetComponent<GoldenTaskScript>().KillTask(false);
+        GT2.GetComponent<GoldenTaskScript>().KillTask(false);
+        GT3.GetComponent<GoldenTaskScript>().KillTask(false);
     }
 
-    //called by player when press A near boss
+    //called by player
     public void TriggerBoss(Inventory inventory, PlayerEntity player)
     {
         bool status = false;
 
-        status = GT1.GetComponent<GoldenTaskScript>().isFulfilled();
-        status = status ? status : GT2.GetComponent<GoldenTaskScript>().isFulfilled();
-        status = status ? status : GT3.GetComponent<GoldenTaskScript>().isFulfilled();
+        status = GT1.GetComponent<GoldenTaskScript>().isFulfilled(inventory, player);
+        status = status ? status : GT2.GetComponent<GoldenTaskScript>().isFulfilled(inventory, player);
+        status = status ? status : GT3.GetComponent<GoldenTaskScript>().isFulfilled(inventory, player);
 
         if (status)
             Happy();
@@ -83,10 +84,20 @@ public class BossScript : MonoBehaviour
 
     private void CheckForSuccess()
     {
-        //si trois GT 'fulfilled' == true, alors success = true
-        //thumbs up
-        //clean task tree
-        //toutes les tâches fulfilled == false
+        if (GT1.GetComponent<GoldenTaskScript>().fulfilled && GT2.GetComponent<GoldenTaskScript>().fulfilled && GT2.GetComponent<GoldenTaskScript>().fulfilled)
+        {
+            success = true;
+            GT1.GetComponent<GoldenTaskScript>().fulfilled = false;
+            GT2.GetComponent<GoldenTaskScript>().fulfilled = false;
+            GT3.GetComponent<GoldenTaskScript>().fulfilled = false;
+            ThumbsUp();
+            TaskManager.instance.ClearList();
+        }
+    }
+
+    public void ThumbsUp()
+    {
+        Debug.Log("thumbs up !");///////////// A CHANGER
     }
 
     public void Happy()
