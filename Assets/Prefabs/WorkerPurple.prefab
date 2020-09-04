@@ -172,5 +172,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   number: 0
-  soundHappy: {fileID: 0}
-  soundAngry: {fileID: 0}
+  soundHappy: {fileID: 8300000, guid: 836c2964c50ecaf4a8587258f0ee76c1, type: 3}
+  soundAngry: {fileID: 8300000, guid: 99eeef72be1108f4cbffdfacac0c2deb, type: 3}
