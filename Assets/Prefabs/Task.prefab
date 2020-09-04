@@ -104,7 +104,7 @@ MonoBehaviour:
   - archive
   taskSprite:
   - {fileID: 21300000, guid: b61f97735c15be94689348b902594d35, type: 3}
-  - {fileID: 21300000, guid: a43b97822feea044989746699ffdff1a, type: 3}
+  - {fileID: 21300000, guid: 0e1b0bcee8e353a4fab1fb2969678895, type: 3}
   - {fileID: 21300000, guid: 833b78a87c05b9d49a0e78c61bc08216, type: 3}
   - {fileID: 21300000, guid: 45eff49a21cc6954e99feaca71aaef33, type: 3}
   - {fileID: 21300000, guid: b83ee5a628d3f3e4dbacb95924e046fb, type: 3}
