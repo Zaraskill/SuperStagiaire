@@ -300,7 +300,7 @@ public class PlayerEntity : MonoBehaviour
 
     public bool IsInteractionWithPrinter()
     {
-        return interactWith == "printer";
+        return interactWith == "printer" && targetItem.GetComponent<Printer>().HasStartPrint();
     }
 
     public void StopPrinter()
