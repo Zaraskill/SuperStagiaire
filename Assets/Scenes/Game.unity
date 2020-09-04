@@ -1167,6 +1167,10 @@ PrefabInstance:
       propertyPath: bounceForce
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 235896576733122031, guid: 62cb0ace051489c40bc90d1f31e2f61f, type: 3}
+      propertyPath: _debugMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62cb0ace051489c40bc90d1f31e2f61f, type: 3}
 --- !u!1 &239649952 stripped
@@ -3071,7 +3075,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 377e73db7cff8ec49ab9daf6d7adf895, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.02
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
