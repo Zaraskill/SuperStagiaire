@@ -13,7 +13,8 @@ public class TaskManager : MonoBehaviour
     public Transform parentGUI;
     public GameObject task;
     public List<Task> tasks;
-   // public GameObject player;
+    // public GameObject player;
+    public AudioClip soundPopPostIt;
 
     private float waitingTime;
     private bool isCounting;
@@ -70,7 +71,7 @@ public class TaskManager : MonoBehaviour
                 spawnPoints[i].occupied = true;
                 task.slot = i;
                 Vector3 pos = new Vector3(spawnPoints[i].position.x * Screen.width / refScreenSize.x, Screen.height - (spawnPoints[i].position.y * Screen.height / refScreenSize.y), 0f);
-                //Création de son ici !! :D
+                AudioSource.PlayClipAtPoint(soundPopPostIt, transform.position);
                 return (pos);
             }
             i++;
