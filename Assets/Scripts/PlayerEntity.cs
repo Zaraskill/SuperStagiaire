@@ -48,10 +48,11 @@ public class PlayerEntity : MonoBehaviour
     [Header("Sound")]
     public AudioClip soundMove;
     public AudioClip soundCoffee;
-    public AudioClip SoundPrint;
-    public AudioSource audioSourcePrint;
+    public AudioClip soundPrint;
+    public AudioClip soundTrash;
+    public AudioSource audioSourceMove;
     public AudioSource audioSourceCoffee;
-
+    public AudioSource audioSource;
     // Debug
     [Header("Debug")]
     public bool _debugMode = false;
@@ -124,6 +125,15 @@ public class PlayerEntity : MonoBehaviour
             float turnFrictionWithRatio = turnFriction * frictionRatio;
 
             speed += moveDir * acceleration * Time.fixedDeltaTime;
+
+
+            if(!audioSourceMove.isPlaying)
+            {
+                audioSourceMove.clip = soundMove;
+                audioSourceMove.Play();
+            }
+
+
             if (speed.sqrMagnitude > moveSpeedMax * moveSpeedMax)
             {
                 speed = speed.normalized * moveSpeedMax;
@@ -290,15 +300,13 @@ public class PlayerEntity : MonoBehaviour
 
     public bool IsInteractionWithPrinter()
     {
-        audioSourcePrint.clip = SoundPrint;
-        audioSourcePrint.Play();
         return interactWith == "printer";
     }
 
     public void StopPrinter()
     {
         targetItem.GetComponent<Printer>().StopPrinting();
-        audioSourcePrint.Stop();
+        audioSource.Stop();
     }
 
     public void ObtainPhotocopy(GameObject photocopy)
@@ -422,6 +430,7 @@ public class PlayerEntity : MonoBehaviour
     {
         if (holdingObjects.itemOne != "")
         {
+            AudioSource.PlayClipAtPoint(soundTrash, transform.position);
             holdingObjects.itemOne = "";
             Destroy(holdingObjects.firstItem);
             holdingObjects.firstItem = null;
@@ -430,6 +439,7 @@ public class PlayerEntity : MonoBehaviour
         }
         if (holdingObjects.itemTwo != "")
         {
+            AudioSource.PlayClipAtPoint(soundTrash, transform.position);
             holdingObjects.itemTwo = "";
             Destroy(holdingObjects.secondItem);
             holdingObjects.secondItem = null;
@@ -521,6 +531,12 @@ public class PlayerEntity : MonoBehaviour
     {
         audioSourceCoffee.clip = soundCoffee;
         audioSourceCoffee.Play();
+    }
+
+    public void PlaySoundPrinter()
+    {
+        audioSource.clip = soundPrint;
+        audioSource.Play();
     }
 
 }

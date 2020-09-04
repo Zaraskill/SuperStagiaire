@@ -5,6 +5,8 @@ using UnityEngine;
 public class CoworkerScript : MonoBehaviour
 {
     public int number;
+    public AudioClip soundHappy;
+    public AudioClip soundAngry;
 
     void Start()
     {
@@ -19,11 +21,13 @@ public class CoworkerScript : MonoBehaviour
 
     public void Mad()
     {
+        AudioSource.PlayClipAtPoint(soundAngry, transform.position);
         Debug.Log("Coworker " + number + " is mad");
     }
 
     public void Happy()
     {
+        AudioSource.PlayClipAtPoint(soundHappy, transform.position);
         Debug.Log("Coworker " + number + " is happy");
     }
 }

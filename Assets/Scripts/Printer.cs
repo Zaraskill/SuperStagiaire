@@ -35,6 +35,7 @@ public class Printer : MonoBehaviour
 
     public void StartPrinting(PlayerEntity player)
     {
+        player.PlaySoundPrinter();
         this.player = player;
         player.canMove = false;
         hasStartPrint = true;
