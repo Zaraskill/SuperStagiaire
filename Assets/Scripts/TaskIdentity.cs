@@ -16,7 +16,6 @@ public class TaskIdentity : MonoBehaviour
     int randomTask , randomArchiveColor;
     public Image taskIcon;
 
-    private TaskManager tm;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,9 +29,8 @@ public class TaskIdentity : MonoBehaviour
     {
         string typeTask = "";
         string work = "";
-        tm = FindObjectOfType<TaskManager>();
-        this.transform.position = tm.ChooseLocation(this);
-        this.transform.rotation = tm.ChooseRotation();
+        this.transform.position = TaskManager.instance.ChooseLocation(this);
+        this.transform.rotation = TaskManager.instance.ChooseRotation();
 
         coworker = UnityEngine.Random.Range(0, coworkersList.Length);
         if (coworker == 0)
