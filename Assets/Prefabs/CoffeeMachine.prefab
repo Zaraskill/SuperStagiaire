@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7027e233f786d54fad20443f08c0be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempsDePreparationCafe: 2
+  tempsDePreparationCafe: 5
   coffeeFull: {fileID: 6040742492936953325, guid: 4d2ee637d95833841be2f601ff386e96, type: 3}
   objToScale: {fileID: 1117386793537848507}
   child: {fileID: 1117386793836374638}
