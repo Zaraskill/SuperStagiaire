@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,18 +28,43 @@ public class TaskIdentity : MonoBehaviour
 
     private void CreateTask()
     {
+        string typeTask = "";
+        string work = "";
         tm = FindObjectOfType<TaskManager>();
         this.transform.position = tm.ChooseLocation(this);
         this.transform.rotation = tm.ChooseRotation();
 
-        coworker = Random.Range(0, coworkersList.Length);
-        img.color = coworkersList[coworker];
-        randomTask = Random.Range(0, task.Length);
-        type = randomTask;
-        
-        if(type == 2)
+        coworker = UnityEngine.Random.Range(0, coworkersList.Length);
+        if (coworker == 0)
         {
-            randomArchiveColor = Random.Range(0, colorOfArchive.Length); // choosing color for archive
+            work = "blue";
+        }
+        else if (coworker == 1)
+        {
+            work = "green";
+        }
+        else if (coworker == 2)
+        {
+            work = "purple";
+        }
+        else
+        {
+            work = "red";
+        }
+        img.color = coworkersList[coworker];
+        randomTask = UnityEngine.Random.Range(0, task.Length);
+        type = randomTask;
+        if(type == 0)
+        {
+            typeTask = "coffee";
+        }
+        else if (type == 1)
+        {
+            typeTask = "printer";
+        }
+        else if(type == 2)
+        {
+            randomArchiveColor = UnityEngine.Random.Range(0, colorOfArchive.Length); // choosing color for archive
             if(colorOfArchive[randomArchiveColor]== colorOfArchive[0])
             {
                 type = 2;
@@ -57,6 +83,7 @@ public class TaskIdentity : MonoBehaviour
 
         }
         taskIcon.sprite = taskSprite[type];//change icon
+        TaskManager.instance.tasks.Add(new Task { worker = work, type = typeTask, postit = this.gameObject });
     }
 
     public void AutoDestroy()
@@ -64,13 +91,13 @@ public class TaskIdentity : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public GameObject IsFulfilled()
-    {
-        //fonction return null si la tâche n'est PAS fulfilled et gameObject si elle est fulfilled
-        //probe l'inventaire pour voir si l'item voulu est là.
-        //si non -> return null
-        //si oui, appelle fonction interne de Player pour destroy cet item de son inventaire, puis -> return gameObject
-        //(chaque tâche a une var type : 0- coffee, 1- photocopie, 2- dossier1, 3- dossier2, 4- dossier3);
-        return null;
-    }
+    
+}
+
+[Serializable]
+public struct Task
+{
+    public string worker;
+    public string type;
+    public GameObject postit;
 }

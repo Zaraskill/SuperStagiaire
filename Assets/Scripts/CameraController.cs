@@ -37,13 +37,6 @@ public class CameraController : MonoBehaviour
     // When space is pressed, cameraview changes from one room to the other
     void LateUpdate()
     {
-        if (Input.GetKeyDown("space"))
-        {
-            destination = isInOffice ? archivesTrans + offset : officeTrans + offset;
-            isInOffice = !isInOffice;
-            isMoving = true;
-        }
-
         if (isMoving)
         {
             if (this.transform.position.x < destination.x - destinationSensitivity  || this.transform.position.x > destination.x + destinationSensitivity)
@@ -54,5 +47,12 @@ public class CameraController : MonoBehaviour
                 isMoving = false;
             }
         }
+    }
+
+    public void StartMoving()
+    {
+        destination = isInOffice ? archivesTrans + offset : officeTrans + offset;
+        isInOffice = !isInOffice;
+        isMoving = true;
     }
 }

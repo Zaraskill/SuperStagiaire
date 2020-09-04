@@ -12,6 +12,7 @@ public class PlayerEntity : MonoBehaviour
     private Vector2 moveDir;
     private Vector2 speed = Vector2.zero;
     private Vector2 orientDir = Vector2.right;
+    public bool canMove = true;
 
     // Frictions
     [Header("Friction")]
@@ -19,6 +20,7 @@ public class PlayerEntity : MonoBehaviour
     public float baseTurnFriction;
     public float lostFriction;
     public float lostTurnFriction;
+    public float bounceForce;
     private float friction;
     private float turnFriction;
 
@@ -31,7 +33,7 @@ public class PlayerEntity : MonoBehaviour
     public bool canInteract;
     public GameObject itemHoldOne;
     public GameObject itemHoldTwo;
-    private GameObject targetItem;
+    public GameObject targetItem;
     private float placeCopies;
 
     //Rigidbody
@@ -75,6 +77,10 @@ public class PlayerEntity : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!canMove)
+        {
+            return;
+        }
         UpdateMove();
         UpdatePosition();
         UpdateSprite();
@@ -89,6 +95,8 @@ public class PlayerEntity : MonoBehaviour
 
         GUILayout.BeginVertical();
         GUILayout.Label("interact = " + interactWith);
+        GUILayout.Label("item 1 = " + holdingObjects.itemOne);
+        GUILayout.Label("item 2  = " + holdingObjects.itemTwo);
         GUILayout.EndVertical();
     }
 
@@ -183,10 +191,15 @@ public class PlayerEntity : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Worker")
+        if(collision.gameObject.tag == "SwitchMap")
+        {
+            CameraController.instance.StartMoving();
+        }
+        if(collision.gameObject.tag == "WorkerBlue" || collision.gameObject.tag == "WorkerRed" || collision.gameObject.tag == "WorkerGreen" || collision.gameObject.tag == "WorkerPurple" || collision.gameObject.tag == "Boss")
         {
             interactWith = "worker";
             canInteract = true;
+            targetItem = collision.gameObject;
         }
         else if(collision.gameObject.tag == "ArchivesDocument")
         {
@@ -329,8 +342,7 @@ public class PlayerEntity : MonoBehaviour
                 holdingObjects.firstItem.transform.localPosition = itemHoldOne.transform.localPosition;
                 holdingObjects.secondItem = null;
             }
-            else
-            {
+            Instantiate(targetItem);
                 targetItem.transform.SetParent(this.transform);
                 targetItem.GetComponent<CircleCollider2D>().enabled = false;
                 targetItem.GetComponent<BoxCollider2D>().enabled = false;
@@ -339,7 +351,6 @@ public class PlayerEntity : MonoBehaviour
                 holdingObjects.secondItem.transform.localPosition = itemHoldTwo.transform.localPosition;
                 _animator.SetBool("isHoldingItem", true);
                 targetItem = null;
-            }
         }
         else if (holdingObjects.itemOne == "")
         {
@@ -369,15 +380,42 @@ public class PlayerEntity : MonoBehaviour
     }
 
 
-    //A changer avec les quetes
     private void GiveToWorker()
     {
-        holdingObjects.itemOne = "";
-        holdingObjects.itemTwo = "";
-        Destroy(holdingObjects.firstItem);
-        Destroy(holdingObjects.secondItem);
+        if (targetItem.tag == "WorkerBlue")
+        {
+            TaskManager.instance.IsFulfilled(holdingObjects, "blue", this);
+        }
+        else if (targetItem.tag == "WorkerGreen")
+        {
+            TaskManager.instance.IsFulfilled(holdingObjects, "green", this);
+        }
+        else if (targetItem.tag == "WorkerRed")
+        {
+            TaskManager.instance.IsFulfilled(holdingObjects, "red", this);
+        }
+        else if (targetItem.tag == "WorkerPurple")
+        {
+            TaskManager.instance.IsFulfilled(holdingObjects, "purple", this);
+        }        
+    }
 
-        _animator.SetBool("isHoldingItem", false);
+    public void  DeleteItem(string tagObjet)
+    {
+        if (holdingObjects.itemOne == tagObjet)
+        {
+            holdingObjects.itemOne = "";
+            Destroy(holdingObjects.firstItem);
+        }
+        else if(holdingObjects.itemTwo == tagObjet)
+        {
+            holdingObjects.itemTwo = "";
+            Destroy(holdingObjects.secondItem);
+        }
+        if (IsHoldingItems() == 0)
+        {
+            _animator.SetBool("isHoldingItem", false);
+        }
     }
 
     public void DropItems()
@@ -418,6 +456,11 @@ public class PlayerEntity : MonoBehaviour
             return 1;
         }
         return 0;
+    }
+
+    public bool IsholdingItem(string item)
+    {
+        return false;
     }
 
     public void GetCoffeeFull(GameObject coffee)

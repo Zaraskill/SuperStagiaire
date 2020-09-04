@@ -7,9 +7,12 @@ public class TaskManager : MonoBehaviour
 {
     public static TaskManager instance = null;
 
+    private int taskDone = 0;
+    private float timerPlay = 0f;
     public int tasksPerMinuteWhenStarting;
     public Transform parentGUI;
     public GameObject task;
+    public List<Task> tasks;
    // public GameObject player;
 
     private float waitingTime;
@@ -32,6 +35,7 @@ public class TaskManager : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
+        tasks = new List<Task>();
     }
 
     void Start()
@@ -45,6 +49,7 @@ public class TaskManager : MonoBehaviour
 
     void Update()
     {
+        timerPlay += Time.deltaTime;
         if (!isCounting)
             StartCoroutine("WaitAndSpawn");
     }
@@ -101,7 +106,7 @@ public class TaskManager : MonoBehaviour
         foreach (GameObject lookedAt in taskList)
         {
             if (i < 2 && lookedAt.GetComponent<TaskIdentity>().coworker == coworker.number)
-                toDestroy[i] = lookedAt.GetComponent<TaskIdentity>().IsFulfilled();
+                //toDestroy[i] = lookedAt.GetComponent<TaskIdentity>().IsFulfilled();
             if (i < 2 && toDestroy[i] != null)
                 i++;
         }
@@ -116,5 +121,72 @@ public class TaskManager : MonoBehaviour
         }
         if (!isHappy)
             coworker.GetComponent<CoworkerScript>().Mad();
+    }
+
+
+    public void IsFulfilled(Inventory inventory, string worker, PlayerEntity player)
+    {
+        foreach(Task task in tasks)
+        {
+            if (task.worker == worker)
+            {
+                if (task.type == "coffee" && (inventory.itemOne == "CoffeeFull" || inventory.itemTwo == "CoffeeFull"))
+                {
+                    tasks.Remove(task);
+                    Destroy(task.postit);
+                    player.DeleteItem("CoffeeFull");
+                    taskDone++;
+                    return;
+                }
+                else if (task.type == "printer" && (inventory.itemOne == "Photocopy" || inventory.itemTwo == "Photocopy"))
+                {
+                    tasks.Remove(task);
+                    Destroy(task.postit);
+                    player.DeleteItem("Photocopy");
+                    taskDone++;
+                    return;
+                }
+                else if (task.type == "archive")
+                {
+                    if (task.worker == "red" && (inventory.itemOne == "RedDocument" || inventory.itemTwo == "RedDocument"))
+                    {
+                        tasks.Remove(task);
+                        Destroy(task.postit);
+                        player.DeleteItem("RedDocument");
+                        taskDone++;
+                        return;
+                    }
+                    else if (task.worker == "blue" && (inventory.itemOne == "BlueDocument" || inventory.itemTwo == "BlueDocument"))
+                    {
+                        tasks.Remove(task);
+                        Destroy(task.postit);
+                        player.DeleteItem("BlueDocument");
+                        taskDone++;
+                        return;
+                    }
+                    else if (task.worker == "green" && (inventory.itemOne == "GreenDocument" || inventory.itemTwo == "GreenDocument"))
+                    {
+                        tasks.Remove(task);
+                        Destroy(task.postit);
+                        player.DeleteItem("GreenDocument");
+                        taskDone++;
+                        return;
+                    }
+                    else if (task.worker == "purple" && (inventory.itemOne == "PurpleDocument" || inventory.itemTwo == "PurpleDocument"))
+                    {
+                        tasks.Remove(task);
+                        Destroy(task.postit);
+                        player.DeleteItem("PurpleDocument");
+                        taskDone++;
+                        return;
+                    }
+                }
+            }
+        }
+        //fonction return null si la tâche n'est PAS fulfilled et gameObject si elle est fulfilled
+        //probe l'inventaire pour voir si l'item voulu est là.
+        //si non -> return null
+        //si oui, appelle fonction interne de Player pour destroy cet item de son inventaire, puis -> return gameObject
+        //(chaque tâche a une var type : 0- coffee, 1- photocopie, 2- dossier1, 3- dossier2, 4- dossier3);
     }
 }

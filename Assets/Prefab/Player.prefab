@@ -141,11 +141,16 @@ MonoBehaviour:
   moveSpeedMax: 5
   baseFriction: 10
   baseTurnFriction: 5
-  holdingObjects: []
-  canPickItem: 0
+  lostFriction: 0
+  lostTurnFriction: 0
+  canInteract: 0
   itemHoldOne: {fileID: 235896577524247163}
   itemHoldTwo: {fileID: 235896576963746184}
-  photocopy: {fileID: 7511829065386992546, guid: 16d8f34661111ea4ca7648f1bd54a2bb, type: 3}
+  soundMove: {fileID: 0}
+  soundCoffee: {fileID: 0}
+  SoundPrint: {fileID: 0}
+  audioSourcePrint: {fileID: 0}
+  audioSourceCoffee: {fileID: 0}
   _debugMode: 1
 --- !u!95 &235896576733122018
 Animator:

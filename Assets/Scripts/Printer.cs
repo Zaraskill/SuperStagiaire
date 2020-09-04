@@ -27,6 +27,7 @@ public class Printer : MonoBehaviour
             {
                 hasStartPrint = false;
                 timerPrint = timePrint;
+                player.canMove = true;
                 player.ObtainPhotocopy(photocopy);
             }
         }
@@ -35,6 +36,7 @@ public class Printer : MonoBehaviour
     public void StartPrinting(PlayerEntity player)
     {
         this.player = player;
+        player.canMove = false;
         hasStartPrint = true;
     }
 

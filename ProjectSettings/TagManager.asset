@@ -14,6 +14,12 @@ TagManager:
   - Trash
   - CoffeeEmpty
   - CoffeeFull
+  - WorkerBlue
+  - WorkerRed
+  - WorkerGreen
+  - WorkerPurple
+  - Boss
+  - SwitchMap
   layers:
   - Default
   - TransparentFX
