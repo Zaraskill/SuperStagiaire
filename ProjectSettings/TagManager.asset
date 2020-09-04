@@ -20,6 +20,10 @@ TagManager:
   - WorkerPurple
   - Boss
   - SwitchMap
+  - RedDocument
+  - BlueDocument
+  - GreenDocument
+  - PurpleDocument
   layers:
   - Default
   - TransparentFX
