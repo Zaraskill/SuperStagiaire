@@ -25,7 +25,6 @@ public class CoworkerScript : MonoBehaviour
         GetComponent<Animator>().SetInteger("happyness", -1);
         StartCoroutine("TimerAnim");
         AudioSource.PlayClipAtPoint(soundAngry, transform.position);
-        Debug.Log("Coworker " + number + " is mad");
     }
 
     public void Happy()
@@ -34,12 +33,11 @@ public class CoworkerScript : MonoBehaviour
         GetComponent<Animator>().SetInteger("happyness", 1);
         StartCoroutine("TimerAnim");
         AudioSource.PlayClipAtPoint(soundHappy, transform.position);
-        Debug.Log("Coworker " + number + " is happy");
     }
 
     IEnumerator TimerAnim()
     {
         yield return new WaitForSeconds(3f);
-        GetComponent<Animator>().SetFloat("happiness", 0);
+        GetComponent<Animator>().SetInteger("happyness", 0);
     }
 }

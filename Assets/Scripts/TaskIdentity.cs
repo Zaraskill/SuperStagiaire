@@ -21,7 +21,6 @@ public class TaskIdentity : MonoBehaviour
     {
         img = gameObject.GetComponent<Image>();
         CreateTask();
-        slot = 0;
     }
 
 

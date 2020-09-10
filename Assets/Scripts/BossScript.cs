@@ -18,9 +18,9 @@ public class BossScript : MonoBehaviour
 
     public AudioClip soundHappy;
     public AudioClip soundAngry;
-    public AudioClip soundBossTask;
+    //public AudioClip soundBossTask;
 
-    public GameObject lightSys;
+    //public GameObject lightSys;
     //private LightTest lightTestScript;
 
     private void Awake()
@@ -73,6 +73,7 @@ public class BossScript : MonoBehaviour
 
     private void Failure()
     {
+        Debug.Log("le message de paix suivant : Coucou.");///////////////////////
         Mad();
         GT1.GetComponent<GoldenTaskScript>().KillTask(false);
         GT2.GetComponent<GoldenTaskScript>().KillTask(false);
@@ -102,15 +103,11 @@ public class BossScript : MonoBehaviour
             GT1.GetComponent<GoldenTaskScript>().fulfilled = false;
             GT2.GetComponent<GoldenTaskScript>().fulfilled = false;
             GT3.GetComponent<GoldenTaskScript>().fulfilled = false;
-            ThumbsUp();
+            //faire un son special ?
+            //fonction de clear de list pour que ce soit beau
             TaskManager.instance.ClearList();
             //lightTestScript.resetLight();
         }
-    }
-
-    public void ThumbsUp()
-    {
-        Debug.Log("thumbs up !");///////////// A CHANGER
     }
 
     public void Happy()
@@ -119,7 +116,6 @@ public class BossScript : MonoBehaviour
         GetComponent<Animator>().SetInteger("happyness", 1);
         StartCoroutine("TimerAnim");
         AudioSource.PlayClipAtPoint(soundHappy, transform.position);
-        Debug.Log("yes !");//////////////// A CHANGER
     }
 
     public void Mad()
@@ -128,12 +124,11 @@ public class BossScript : MonoBehaviour
         GetComponent<Animator>().SetInteger("happyness", -1);
         StartCoroutine("TimerAnim");
         AudioSource.PlayClipAtPoint(soundAngry, transform.position);
-        Debug.Log("GRRRRR");/////////////////// A CHANGER
     }
 
     IEnumerator TimerAnim()
     {
         yield return new WaitForSeconds(3f);
-        GetComponent<Animator>().SetFloat("happiness", 0);
+        GetComponent<Animator>().SetInteger("happyness", 0);
     }
 }
