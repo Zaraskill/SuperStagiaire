@@ -7,11 +7,14 @@ public class MenuManager : MonoBehaviour
     public string gameSceneName;
     public string mainMenuSceneName, creditSceneName, controlSceneName;
     public GameObject pauseObject;
-    public GameObject creditBG, controlsBg, playBg;
+    public GameObject creditBG, controlsBg, playBg, backBg;
+    public GameObject creditScreen, controlScreen;
+    public GameObject backButton;
 
-    private void Start()
-    {
-    }
+    private bool isCredit;//0 when control screen is open, 1 when credit screen is open
+
+    
+
     void Update()
     {
         // If the player press "Escape" button, the game is paused until he press "Escape" again or click "Resume". During the pause, everything is stopped in the game.
@@ -33,6 +36,8 @@ public class MenuManager : MonoBehaviour
             
         } 
     }
+
+
 
     public void PlayGame() // Launch the game when the player press "Play" in the main menu.
     {
@@ -64,19 +69,30 @@ public class MenuManager : MonoBehaviour
     }
 
 
+
+
     public void CreditMenu()
     {
-        SceneManager.LoadScene(creditSceneName);
+        creditScreen.SetActive(true);
+        isCredit = true;
+        backButton.SetActive(true);
     }
-
 
     public void ControlMenu()
     {
-        SceneManager.LoadScene(controlSceneName);
+        controlScreen.SetActive(true);
+        isCredit = false;
+        backButton.SetActive(true);
     }
 
-
-
+    public void CloseAdditionalMenu()
+    {
+        if (isCredit)
+            creditScreen.SetActive(false);
+        else
+            controlScreen.SetActive(false);
+        backButton.SetActive(false);
+    }
 
 
 
@@ -104,5 +120,13 @@ public class MenuManager : MonoBehaviour
     public void DisableBgPlay()
     {
         playBg.SetActive(false);
+    }
+    public void ActiveBgBack()
+    {
+        backBg.SetActive(true);
+    }
+    public void DisableBgBack()
+    {
+        backBg.SetActive(false);
     }
 }
